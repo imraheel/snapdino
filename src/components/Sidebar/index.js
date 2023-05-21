@@ -15,7 +15,7 @@ import logo from '../../assets/images/logo-light.svg'
 
 import SettingCrop from './SettingCrop'
 
-function Sidebar() {
+const Sidebar = () => {
 	const dispatch = useDispatch()
 	const settings = useSelector((state) => state.settings)
 	const files = useSelector((state) => state.files)
@@ -38,7 +38,7 @@ function Sidebar() {
 
 			<Accordion>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />} >
-					<Typography>Resize & Crop</Typography>
+					<Typography color={settings?.disableCrop ? "GrayText" : "white"} >Resize & Crop</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
 					<SettingCrop />
@@ -55,10 +55,10 @@ function Sidebar() {
 
 			<Grid container spacing={2} marginTop={1}>
 				<Grid item xs={6}>
-					<Button variant="contained" size='small' fullWidth>Save as ZIP</Button>
+					<Button variant="contained" fullWidth>Save as ZIP</Button>
 				</Grid>
 				<Grid item xs={6}>
-					<Button variant="contained" size='small' fullWidth>Save Files</Button>
+					<Button variant="contained" fullWidth>Save Files</Button>
 				</Grid>
 			</Grid>
 			

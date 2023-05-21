@@ -2,10 +2,11 @@ import { createStore } from 'redux'
 
 const initialState = {
 	settings: {
+		disableCrop: false,
 		autoWidth: false,
 		autoHeight: false,
-		width: 1200,
-		height: 1200,
+		width: 600,
+		height: 600,
 		aspectRatio: '1:1',
 	},
 	files: [],
