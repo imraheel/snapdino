@@ -5,10 +5,15 @@ const filesSlice = createSlice({
 	initialState: [],
 	reducers: {
 		addFiles(state, action) {
-			state.push(action.payload)
+			Array.from(action.payload).forEach(file => {
+				state.push({
+					key: Math.random(),
+					file,
+				})
+			});
 		}
 	}
 })
 
-export const { addFiles } = filesSlice.actions
+export const { addFile, addFiles } = filesSlice.actions
 export default filesSlice.reducer

@@ -27,7 +27,12 @@ const SettingCrop = () => {
 		"16:9",
 	])
 
-
+	/**
+	 * Updates the aspect ratio of the settings based on the specified ratio.
+	 * If the ratio is not 'Custom', it calculates the new width based on the current height and the ratio.
+	 * Then, it dispatches an action to update the aspect ratio and width in the application state.
+	 * @param {string} ratio - The new aspect ratio to be applied.
+	 */
 	const updateAspectRatio = (ratio) => {
 		let width = settings.width;
 		let height = settings.height;
@@ -44,6 +49,12 @@ const SettingCrop = () => {
 		}))
 	}
 
+	/**
+	 * Calculates the aspect ratio based on the specified width and height.
+	 * @param {number} width - The width value.
+	 * @param {number} height - The height value.
+	 * @returns {string} The calculated aspect ratio in the format "width:height".
+	 */
 	const calculateRatio = (width, height) => {
 		function gcd (a, b) {
 			return (b == 0) ? a : gcd (b, a%b);
@@ -55,6 +66,12 @@ const SettingCrop = () => {
 		return (w / r) + ':' + (h / r);
 	}
 
+	/**
+	 * Updates the width of the settings based on the specified width value.
+	 * It calculates the new aspect ratio based on the updated width and the current height.
+	 * Then, it dispatches an action to update the width and aspect ratio in the application state.
+	 * @param {number} width - The new width value.
+	 */
 	const updateWidth = (width) => {
 		let height = settings.height;
 
@@ -67,6 +84,12 @@ const SettingCrop = () => {
 		}))
 	}
 
+	/**
+	 * Updates the height of the settings based on the specified height value.
+	 * It calculates the new aspect ratio based on the current width and the updated height.
+	 * Then, it dispatches an action to update the height and aspect ratio in the application state.
+	 * @param {number} height - The new height value.
+	 */
 	const updateHeight = (height) => {
 		let width = settings.width;
 
