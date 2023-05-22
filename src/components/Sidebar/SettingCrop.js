@@ -13,18 +13,71 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
 
 
+import { updateSetting } from '../../redux/settingsSlice';
+
+
 const SettingCrop = () => {
 	const dispatch = useDispatch()
 	const settings = useSelector((state) => state.settings)
 	const files = useSelector((state) => state.files)
+	const [availableAspectRatios, setAvailableAspectRatios] = useState([
+		"1:1",
+		"4:3",
+		"3:4",
+		"16:9",
+	])
 
-	useEffect(() => {
 
+	const updateAspectRatio = (ratio) => {
+		let width = settings.width;
+		let height = settings.height;
 
-		return () => {
-
+		if (ratio !== 'Custom') {
+			let r1 = ratio.split(':')[0]
+			let r2 = ratio.split(':')[1]
+			width = height * (r1 / r2)
 		}
-	}, [])
+
+		dispatch(updateSetting({
+			aspectRatio: ratio,
+			width: parseInt(width),
+		}))
+	}
+
+	const calculateRatio = (width, height) => {
+		function gcd (a, b) {
+			return (b == 0) ? a : gcd (b, a%b);
+		}
+		let w = width;
+		let h = height;
+		let r = gcd (w, h);
+
+		return (w / r) + ':' + (h / r);
+	}
+
+	const updateWidth = (width) => {
+		let height = settings.height;
+
+		// calculate ratio based on width and height
+		let newRatio = calculateRatio(width, height);
+
+		dispatch(updateSetting({
+			width: parseInt(width),
+			aspectRatio: (availableAspectRatios.includes(newRatio)) ? newRatio : 'Custom',
+		}))
+	}
+
+	const updateHeight = (height) => {
+		let width = settings.width;
+
+		// calculate ratio based on width and height
+		let newRatio = calculateRatio(width, height);
+
+		dispatch(updateSetting({
+			height: parseInt(height),
+			aspectRatio: (["1:1", "4:3", "3:4", "16:9"].includes(newRatio)) ? newRatio : 'Custom',
+		}))
+	}
 
 	return (
 		<>
@@ -32,51 +85,62 @@ const SettingCrop = () => {
 				<>
 				<Grid container spacing={2} marginBottom={1}>
 					<Grid item xs={6}>
-						<FormControlLabel control={<Checkbox />} label="Auto Width" />
+						<FormControlLabel control={<Checkbox checked={settings.autoWidth} onChange={() => {
+							dispatch(updateSetting({
+								autoWidth: !settings.autoWidth
+							}))
+						}} />} label="Auto Width" />
 					</Grid>
 					<Grid item xs={6}>
 						<TextField
 							label="Width"
 							size="small"
-							value={settings?.width}
+							value={settings.width}
+							disabled={settings.autoWidth}
 							InputProps={{
 								endAdornment: <InputAdornment position="start">px</InputAdornment>,
 							}}
+							onChange={(event) => updateWidth(event.target.value)}
 						/>
 					</Grid>
 				</Grid>
 
 				<Grid container spacing={2} marginBottom={1}>
 					<Grid item xs={6}>
-						<FormControlLabel control={<Checkbox />} label="Auto Height" />
+						<FormControlLabel control={<Checkbox checked={settings.autoHeight} onChange={() => {
+							dispatch(updateSetting({
+								autoHeight: !settings.autoHeight
+							}))
+						}} />} label="Auto Height" />
 					</Grid>
 					<Grid item xs={6}>
 						<TextField
 							label="Height"
 							size="small"
-							value={settings?.height}
+							value={settings.height}
+							disabled={settings.autoHeight}
 							InputProps={{
 								endAdornment: <InputAdornment position="start">px</InputAdornment>,
 							}}
+							onChange={(event) => updateHeight(event.target.value)}
 						/>
 					</Grid>
 				</Grid>
 
 				<Grid marginBottom={1}>
 					<FormControl fullWidth>
-						<InputLabel id="demo-simple-select-label">Aspect Ratio</InputLabel>
+						<InputLabel id="aspect-ratio-select-label">Aspect Ratio</InputLabel>
 						<Select
-							labelId="demo-simple-select-label"
-							id="demo-simple-select"
-							value={settings?.aspectRatio}
+							labelId="aspect-ratio-select-label"
+							id="aspect-ratio-select"
+							value={settings.aspectRatio}
 							label="Aspect Ratio"
 							size='small'
-							onChange={(event) => console.log(event.target.value)}
+							onChange={(event) => updateAspectRatio(event.target.value)}
 						>
-							<MenuItem value="1:1">1:1</MenuItem>
-							<MenuItem value="4:3">4:3</MenuItem>
-							<MenuItem value="3:4">3:4</MenuItem>
-							<MenuItem value="16:9">16:9</MenuItem>
+							{availableAspectRatios.map((ratio) => (
+								<MenuItem key={ratio} value={ratio}>{ratio}</MenuItem>
+							))}
 							<MenuItem value="Custom">Custom</MenuItem>
 						</Select>
 					</FormControl>
@@ -85,21 +149,21 @@ const SettingCrop = () => {
 
 				<Grid marginBottom={1}>
 					<FormControl fullWidth>
-						<FormControlLabel control={<Switch defaultChecked />} label="Auto detect focal point" />
+						<FormControlLabel control={<Switch checked={settings.autoFocalPoint} onChange={() => {
+							dispatch(updateSetting({
+								autoFocalPoint: !settings.autoFocalPoint
+							}))
+						}} />} label="Auto detect focal point" />
 					</FormControl>
 				</Grid>
 				</>
 			) : null}
 
 			<Grid>
-				<FormControlLabel control={<Checkbox defaultChecked={settings.disableCrop} onChange={() => {
-					dispatch({
-						type: 'set',
-						settings: {
-							...settings,
-							disableCrop: !(settings.disableCrop)
-						}
-					})
+				<FormControlLabel control={<Checkbox checked={settings.disableCrop} onChange={() => {
+					dispatch(updateSetting({
+						disableCrop: !settings.disableCrop
+					}))
 				}} />} label="Disable Resize and Cropping" />
 			</Grid>
 		</>

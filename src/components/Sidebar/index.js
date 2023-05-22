@@ -11,6 +11,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 
+import { updateSetting, resetSettings } from '../../redux/settingsSlice';
+
 import logo from '../../assets/images/logo-light.svg'
 
 import SettingCrop from './SettingCrop'
@@ -27,10 +29,6 @@ const Sidebar = () => {
 
 		}
 	}, [])
-
-	const resetSettings = () => {
-		console.log('resetSettings')
-	}
 
 	return (
 		<div id='sidebar'>
@@ -67,7 +65,7 @@ const Sidebar = () => {
 					<Button variant="text" color='secondary' size='small' fullWidth disabled={true}>Remove All</Button>
 				</Grid>
 				<Grid item xs={6}>
-					<Button variant="text" color='secondary' size='small' fullWidth onClick={resetSettings}>Reset Settings</Button>
+					<Button variant="text" color='secondary' size='small' fullWidth onClick={() => dispatch(resetSettings())}>Reset Settings</Button>
 				</Grid>
 			</Grid>
 		</div>

@@ -50,7 +50,7 @@ const WorkingArea = () => {
 
 	return (
 		<div id='workingArea'>
-			{(files.length === 0) ? (
+			{(files && files.length === 0) ? (
 				<DropPlaceholder />
 			) : (
 				<Typography>test</Typography>
