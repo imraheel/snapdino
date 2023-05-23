@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Box from '@mui/material/Box';
-import { Typography, Button } from '@mui/material';
+import { Typography, Button, Grid } from '@mui/material';
 
 import imagePlaceholder from '../assets/images/image-placeholder.png'
 import { addFiles } from '../redux/filesSlice';
+import ImagePreview from './ImagePreview';
 
 const DropPlaceholder = ({inputFileRef, selectFiles}) => {
 
@@ -103,7 +104,16 @@ const WorkingArea = () => {
 			onDragOver={handleDrag} 
 			onDrop={handleDrop} >
 			<input type='file' id='file' ref={inputFileRef} accept="image/*" multiple style={{display: 'none'}} onChange={(e) => selectFiles(e.target.files)} />
-			<Typography>Selected files {files.length}</Typography>
+			
+			<Grid container spacing={2}>
+				{files && files.map((file, index) => {
+					return (
+						<Grid item xs={4} key={file.key}>
+							<ImagePreview fileObj={file} />
+						</Grid>
+					)
+				})}
+			</Grid>
 		</div>
 	)
 }
