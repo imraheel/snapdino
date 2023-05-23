@@ -1,0 +1,5 @@
+<svg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' style="background-color:black;opacity:0.4">
+	<g fill='#555' fill-opacity='1' fill-rule='evenodd'>
+		<path d='M0 20L20 0H10L0 10M20 20V10L10 20'/>
+	</g>
+</svg>

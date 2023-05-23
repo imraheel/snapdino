@@ -5,8 +5,8 @@ const initialState = {
 	disableCrop: false,
 	autoWidth: false,
 	autoHeight: false,
-	width: 600,
-	height: 600,
+	width: 300,
+	height: 400,
 	aspectRatio: '1:1',
 	autoFocalPoint: true,
 }

@@ -6,10 +6,7 @@ const filesSlice = createSlice({
 	reducers: {
 		addFiles(state, action) {
 			Array.from(action.payload).forEach(file => {
-				state.push({
-					key: Math.random(),
-					file,
-				})
+				state.push(file)
 			});
 		}
 	}
