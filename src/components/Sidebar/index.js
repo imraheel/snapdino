@@ -34,7 +34,7 @@ const Sidebar = () => {
 		<div id='sidebar'>
 			<img src={logo} className='logo' height={80} />
 
-			<Accordion>
+			<Accordion defaultExpanded>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />} >
 					<Typography color={settings?.disableCrop ? "GrayText" : "white"} >Resize & Crop</Typography>
 				</AccordionSummary>
