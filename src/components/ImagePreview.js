@@ -35,11 +35,14 @@ const ImagePreview = ({ file }) => {
 				imageContainerRef.current.appendChild(imageData.image);
 			}
 
-			setTimeout(() => {
-				initCropper();
-			}, 500)
+			initCropper();
 
 			if (maskRef) {
+				maskRef.current.width = imageData.image.offsetWidth;
+				maskRef.current.height = imageData.image.offsetHeight;
+				maskRef.current.style.top = 0;
+				maskRef.current.style.left = 0;
+
 				maskRef.current.addEventListener('mousedown', onMouseDown);
 				maskRef.current.addEventListener('mouseup', onMouseUp);
 				maskRef.current.addEventListener('mousemove', onMouseMove);
@@ -136,10 +139,6 @@ const ImagePreview = ({ file }) => {
 	}
 
 	const drawMask = (customFocal = false, customFx = 0, customFy = 0) => {
-		maskRef.current.width = imageData.image.offsetWidth;
-		maskRef.current.height = imageData.image.offsetHeight;
-		maskRef.current.style.top = 0;
-		maskRef.current.style.left = 0;
 
 		const tw = settings.width;
 		const th = settings.height;
