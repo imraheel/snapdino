@@ -12,6 +12,7 @@ const ImagePreview = ({ file }) => {
 	const settings = useSelector((state) => state.settings)
 	const imageContainerRef = useRef(null) 
 	const maskRef = useRef(null) 
+	const debugRef = useRef(null) 
 	const [imageData, setImageData] = useState(null)
 	const [cropData, setCropData] = useState(null)
 
@@ -51,9 +52,66 @@ const ImagePreview = ({ file }) => {
 		const result = await smartcrop.crop(imageData.image, {
 			width: settings.width, 
 			height: settings.height,
+			ruleOfThirds: true,
+			debug: true,
 		});
 
+		console.log('smartcrop', result)
+		
+		if (result.debugOutput) {
+			debugDraw(result, true)
+		}
+
 		setCropData({...result.topCrop})
+	}
+
+	
+	function debugDraw(result, showCrop) {
+		let topCrop = result.debugTopCrop;
+		let options = result.debugOptions;
+		let output = result.debugOutput;
+		let canvas = debugRef.current;
+		canvas.width = output.width;
+		canvas.height = output.height;
+		let ctx = canvas.getContext('2d');
+		ctx.fillStyle = 'rgba(255, 0, 0, 0.1)';
+		ctx.fillRect(topCrop.x, topCrop.y, topCrop.width, topCrop.height);
+		let debugOutput = ctx.createImageData(output.width, output.height);
+		debugOutput.data.set(output.data);
+		for (var y = 0; y < output.height; y++) {
+			for (var x = 0; x < output.width; x++) {
+				var p = (y * output.width + x) * 4;
+				if (showCrop) {
+					var I = smartcrop.importance(options, topCrop, x, y);
+					if (I > 0) {
+						debugOutput.data[p + 1] += I * 32;
+					}
+
+					if (I < 0) {
+						debugOutput.data[p] += I * -64;
+					}
+				}
+				// visualize alpha (boost) as magenta
+				var boost = debugOutput.data[p + 3] / 2;
+				debugOutput.data[p] += boost;
+				debugOutput.data[p + 2] += boost;
+				debugOutput.data[p + 3] = 255;
+			}
+		}
+
+		ctx.putImageData(debugOutput, 0, 0);
+		ctx.strokeStyle = 'rgba(255, 0, 0, 0.8)';
+		if (showCrop) {
+			ctx.strokeRect(topCrop.x, topCrop.y, topCrop.width, topCrop.height);
+		}
+		if (options.boost) {
+			ctx.strokeStyle = 'rgba(255, 255, 255, 1.0)';
+			for (var i = 0; i < options.boost.length; i++) {
+				var b = options.boost[i];
+				ctx.strokeRect(b.x, b.y, b.width, b.height);
+			}
+		}
+		return canvas;
 	}
 
 	const drawMask = () => {
@@ -117,7 +175,18 @@ const ImagePreview = ({ file }) => {
 					style={{ top: 0, left: 0 }} 
 				/>
 			</div>
-			<Typography>{file.name}</Typography>
+			<canvas 
+				className="debug-canvas" 
+				ref={debugRef}
+				width={0} 
+				height={0} 
+				style={{ top: 0, left: 0, width: '100%' }} 
+			/>
+			<Typography style={{
+				whiteSpace: 'nowrap',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis',
+			}}>{file.name}</Typography>
 		</Paper>
 	)
 }
