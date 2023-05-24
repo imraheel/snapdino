@@ -9,6 +9,8 @@ $color6: #abb2bf;
 $color1-light: #f7f7f7;
 $color3-light: #eeeeee;
 
+$sidebar: 330px;
+
 *,
 *::before,
 *::after {
@@ -33,7 +35,7 @@ body,
 
 #sidebar {
 	background: $color3;
-	width: 30%;
+	width: $sidebar;
 	height: 100vh;
 	padding: 10px;
 	overflow: hidden;
@@ -47,7 +49,7 @@ body,
 }
 
 #workingArea {
-	width: 70%;
+	width: calc(100% - $sidebar);
 	height: 100vh;
 	padding: 20px;
 	overflow: hidden;

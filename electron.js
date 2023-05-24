@@ -10,12 +10,15 @@ function createWindow() {
 	const win = new BrowserWindow({
 		width: 1100,
 		height: 700,
+		minWidth: 1080,
+		minHeight: 600,
+		resizable: true,
+		// icon: true,
 		webPreferences: {
 			nodeIntegration: true,
 			// webSecurity: false,
 			// allowRunningInsecureContent: true,
 		},
-		resizable: false,
 	});
 
 	// and load the index.html of the app.
