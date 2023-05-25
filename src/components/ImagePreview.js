@@ -8,10 +8,10 @@ import smartcrop from 'smartcrop';
 import pattern from '../assets/images/pattern.svg'
 
 let isMouseDown = false;
-let clientX = 0;
-let clientY = 0;
-let focal_x = 0;
-let focal_y = 0;
+let mouseDownX = 0;
+let mouseDownY = 0;
+let lastFocalX = 0;
+let lastFocalY = 0;
 const ImagePreview = ({ file }) => {
 	const dispatch = useDispatch()
 	const settings = useSelector((state) => state.settings)
@@ -56,7 +56,7 @@ const ImagePreview = ({ file }) => {
 			maskRef.current.removeEventListener('mousemove', onMouseMove);
 			maskRef.current.removeEventListener('mouseleave', onMouseUp);
 		}
-	}, [imageData])
+	}, [imageData, settings])
 
 	useEffect(() => {
 		if (cropData) {
@@ -77,7 +77,7 @@ const ImagePreview = ({ file }) => {
 			width: settings.width, 
 			height: settings.height,
 			ruleOfThirds: true,
-			debug: false,
+			debug: true,
 		});
 
 		console.log('smartcrop', result)
@@ -156,7 +156,6 @@ const ImagePreview = ({ file }) => {
 			nh = th * Math.min(w / tw, h / th);
 		}
 
-		// console.log('mask_pattern', mask_pattern)
 		// console.log('fillRect', 0, 0, w, h);
 		// console.log('clearRect', (w - nw) * fx, (h - nh) * fy, nw, nh);
 		// console.log({ tw, th, fx, fy, w, h, nw, nh })
@@ -166,9 +165,14 @@ const ImagePreview = ({ file }) => {
 		ctx.fillRect(0, 0, w, h);
 		ctx.clearRect((w - nw) * fx, (h - nh) * fy, nw, nh);
 
+		file.focalX = (w - nw) * fx;
+		file.focalX = (h - nh) * fy;
+		file.cropWidth = nw;
+		file.cropHeight = nh;
+
 		if (!customFocal) {
-			focal_x = fx
-			focal_y = fy
+			lastFocalX = fx
+			lastFocalY = fy
 		}
 	}
 
@@ -176,9 +180,8 @@ const ImagePreview = ({ file }) => {
 		if (settings.autoWidth || settings.autoHeight) return;
 
 		isMouseDown = true;
-
-		clientX = event.clientX;
-		clientY = event.clientY;
+		mouseDownX = event.clientX;
+		mouseDownY = event.clientY;
 	}
 	const onMouseUp = (event) => {
 		isMouseDown = false;
@@ -189,11 +192,11 @@ const ImagePreview = ({ file }) => {
 
 			let x = event.clientX;
 			let y = event.clientY;
-			let ox = clientX
-			let oy = clientY;
+			let ox = mouseDownX
+			let oy = mouseDownY;
 
-			let fx = focal_x;
-			let fy = focal_y;
+			let fx = lastFocalX;
+			let fy = lastFocalY;
 
 			let new_fx = fx + ((x - ox) / imageData.image.offsetWidth) * 2;
 			let new_fy = fy + ((y - oy) / imageData.image.offsetHeight) * 2;

@@ -40,12 +40,18 @@ const SettingCrop = () => {
 		if (ratio !== 'Custom') {
 			let r1 = ratio.split(':')[0]
 			let r2 = ratio.split(':')[1]
-			width = height * (r1 / r2)
+
+			if (Math.min(width, height) === width) {
+				height = width * (r2 / r1)
+			} else {
+				width = height * (r1 / r2)
+			}
 		}
 
 		dispatch(updateSetting({
 			aspectRatio: ratio,
 			width: parseInt(width),
+			height: parseInt(height),
 		}))
 	}
 
