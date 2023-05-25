@@ -132,10 +132,10 @@ const WorkingArea = () => {
 			</Box>
 
 			<Grid container spacing={2}>
-				{files && files.map((file, index) => {
+				{files && files.map((fileObj, index) => {
 					return (
-						<Grid item xs={perColumn} key={index}>
-							<ImagePreview file={file} />
+						<Grid item xs={perColumn} key={fileObj.id}>
+							<ImagePreview fileObj={fileObj} />
 						</Grid>
 					)
 				})}

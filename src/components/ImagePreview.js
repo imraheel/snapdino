@@ -2,17 +2,21 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import loadImage from 'blueimp-load-image';
-import { Paper, Skeleton, Typography } from '@mui/material';
+import { Grid, Paper, Skeleton, Typography } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { red } from '@mui/material/colors';
 import smartcrop from 'smartcrop';
 
 import pattern from '../assets/images/pattern.svg'
+import { removeFile } from '../redux/filesSlice';
 
 let isMouseDown = false;
 let mouseDownX = 0;
 let mouseDownY = 0;
 let lastFocalX = 0;
 let lastFocalY = 0;
-const ImagePreview = ({ file }) => {
+const ImagePreview = ({ fileObj }) => {
 	const dispatch = useDispatch()
 	const settings = useSelector((state) => state.settings)
 	const imageContainerRef = useRef(null) 
@@ -62,8 +66,8 @@ const ImagePreview = ({ file }) => {
 
 
 	const handleImageLoad = async () => {
-		const data = await loadImage(file, {})
-		console.log('imageData', data)
+		const data = await loadImage(fileObj.file, {})
+		// console.log('imageData', data)
 
 		if (imageContainerRef.current) {
 			imageContainerRef.current.appendChild(data.image);
@@ -82,7 +86,7 @@ const ImagePreview = ({ file }) => {
 			width: settings.width, 
 			height: settings.height,
 			ruleOfThirds: true,
-			debug: false,
+			debug: settings.debugMode,
 		});
 
 		console.log('smartcrop', result)
@@ -95,7 +99,7 @@ const ImagePreview = ({ file }) => {
 	}
 
 	
-	function debugDraw(result, showCrop) {
+	const debugDraw = (result, showCrop) => {
 		let topCrop = result.debugTopCrop;
 		let options = result.debugOptions;
 		let output = result.debugOutput;
@@ -205,7 +209,6 @@ const ImagePreview = ({ file }) => {
 	}
 	const onMouseMove = (event) => {
 		if (isMouseDown) {
-			// console.log('onMouseMove', file.name, {clientX: event.clientX, clientY: event.clientY})
 
 			let x = event.clientX;
 			let y = event.clientY;
@@ -250,18 +253,25 @@ const ImagePreview = ({ file }) => {
 					style={{ top: 0, left: 0 }} 
 				/>
 			</div>
-			<canvas 
-				className="debug-canvas" 
-				ref={debugRef}
-				width={0} 
-				height={0} 
-				style={{ top: 0, left: 0, width: '100%' }} 
-			/>
-			<Typography style={{
-				whiteSpace: 'nowrap',
-				overflow: 'hidden',
-				textOverflow: 'ellipsis',
-			}}>{file.name}</Typography>
+
+			{settings.debugMode ? (
+				<canvas 
+					className="debug-canvas" 
+					ref={debugRef}
+					width={0} 
+					height={0} 
+					style={{ top: 0, left: 0, width: '100%'}} 
+				/>
+			) : null}
+
+			<Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
+				<Typography style={{
+					whiteSpace: 'nowrap',
+					overflow: 'hidden',
+					textOverflow: 'ellipsis',
+				}}>{fileObj.file.name}</Typography>
+				<DeleteIcon sx={{color : red[400]}} onClick={() => dispatch(removeFile(fileObj.id))} />
+			</Stack>
 		</Paper>
 	)
 }
