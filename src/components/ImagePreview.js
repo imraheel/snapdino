@@ -31,17 +31,11 @@ const ImagePreview = ({ file }) => {
 
 	useEffect(() => {
 		if (imageData) {
-			if (imageContainerRef.current) {
-				imageContainerRef.current.appendChild(imageData.image);
-			}
-
 			initCropper();
 
 			if (maskRef) {
 				maskRef.current.width = imageData.image.offsetWidth;
 				maskRef.current.height = imageData.image.offsetHeight;
-				maskRef.current.style.top = 0;
-				maskRef.current.style.left = 0;
 
 				maskRef.current.addEventListener('mousedown', onMouseDown);
 				maskRef.current.addEventListener('mouseup', onMouseUp);
@@ -69,6 +63,16 @@ const ImagePreview = ({ file }) => {
 	const handleImageLoad = async () => {
 		const data = await loadImage(file, {})
 		console.log('imageData', data)
+
+		if (imageContainerRef.current) {
+			imageContainerRef.current.appendChild(data.image);
+		}
+
+		if (maskRef) {
+			maskRef.current.width = data.image.offsetWidth;
+			maskRef.current.height = data.image.offsetHeight;
+		}
+
 		setImageData(data);
 	}
 
@@ -77,7 +81,7 @@ const ImagePreview = ({ file }) => {
 			width: settings.width, 
 			height: settings.height,
 			ruleOfThirds: true,
-			debug: true,
+			debug: false,
 		});
 
 		console.log('smartcrop', result)
@@ -165,11 +169,6 @@ const ImagePreview = ({ file }) => {
 		ctx.fillRect(0, 0, w, h);
 		ctx.clearRect((w - nw) * fx, (h - nh) * fy, nw, nh);
 
-		file.focalX = (w - nw) * fx;
-		file.focalX = (h - nh) * fy;
-		file.cropWidth = nw;
-		file.cropHeight = nh;
-
 		if (!customFocal) {
 			lastFocalX = fx
 			lastFocalY = fy
@@ -185,6 +184,23 @@ const ImagePreview = ({ file }) => {
 	}
 	const onMouseUp = (event) => {
 		isMouseDown = false;
+
+		let x = event.clientX;
+		let y = event.clientY;
+		let ox = mouseDownX
+		let oy = mouseDownY;
+
+		let fx = lastFocalX;
+		let fy = lastFocalY;
+
+		let new_fx = fx + ((x - ox) / imageData.image.offsetWidth) * 2;
+		let new_fy = fy + ((y - oy) / imageData.image.offsetHeight) * 2;
+
+		new_fx = Math.max(0, Math.min(1, new_fx));
+		new_fy = Math.max(0, Math.min(1, new_fy));
+
+		lastFocalX = new_fx
+		lastFocalY = new_fy
 	}
 	const onMouseMove = (event) => {
 		if (isMouseDown) {

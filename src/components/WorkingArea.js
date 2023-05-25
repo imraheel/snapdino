@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Box from '@mui/material/Box';
-import { Typography, Button, Grid } from '@mui/material';
+import { Typography, Button, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 import imagePlaceholder from '../assets/images/image-placeholder.png'
 import { addFiles } from '../redux/filesSlice';
@@ -44,6 +44,7 @@ const WorkingArea = () => {
 	const settings = useSelector((state) => state.settings)
 	const files = useSelector((state) => state.files)
 	const inputFileRef = useRef(null) 
+	const [perColumn, setPerColumn] = useState(3)
 
 	useEffect(() => {
 		
@@ -105,10 +106,28 @@ const WorkingArea = () => {
 			onDrop={handleDrop} >
 			<input type='file' id='file' ref={inputFileRef} accept="image/*" multiple style={{display: 'none'}} onChange={(e) => selectFiles(e.target.files)} />
 			
+			<Grid marginBottom={1}>
+				<FormControl>
+					<InputLabel id="grid-view-select-label">Per Columns</InputLabel>
+					<Select
+						labelId="grid-view-select-label"
+						id="aspect-ratio-select"
+						value={perColumn}
+						label="Per Columns"
+						size='small'
+						onChange={(event) => setPerColumn(event.target.value)}
+					>
+						<MenuItem value="2">2</MenuItem>
+						<MenuItem value="3">3</MenuItem>
+						<MenuItem value="4">4</MenuItem>
+					</Select>
+				</FormControl>
+			</Grid>
+
 			<Grid container spacing={2}>
 				{files && files.map((file, index) => {
 					return (
-						<Grid item xs={4} key={index}>
+						<Grid item xs={4} sm={4} md={3} key={index}>
 							<ImagePreview file={file} />
 						</Grid>
 					)
