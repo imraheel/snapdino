@@ -4,8 +4,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import Box from '@mui/material/Box';
 import { Typography, Button, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
-import imagePlaceholder from '../assets/images/image-placeholder.png'
 import { addFiles } from '../redux/filesSlice';
+import { updateSetting } from '../redux/settingsSlice';
+
+import imagePlaceholder from '../assets/images/image-placeholder.png'
 import ImagePreview from './ImagePreview';
 
 const DropPlaceholder = ({inputFileRef, selectFiles}) => {
@@ -44,7 +46,7 @@ const WorkingArea = () => {
 	const settings = useSelector((state) => state.settings)
 	const files = useSelector((state) => state.files)
 	const inputFileRef = useRef(null) 
-	const [perColumn, setPerColumn] = useState(3)
+	const [perColumn, setPerColumn] = useState(4)
 
 	useEffect(() => {
 		
@@ -106,28 +108,34 @@ const WorkingArea = () => {
 			onDrop={handleDrop} >
 			<input type='file' id='file' ref={inputFileRef} accept="image/*" multiple style={{display: 'none'}} onChange={(e) => selectFiles(e.target.files)} />
 			
-			<Grid marginBottom={1}>
-				<FormControl>
-					<InputLabel id="grid-view-select-label">Per Columns</InputLabel>
+			<Box sx={{
+				display: 'flex',
+				justifyContent: 'flex-end',
+				alignItems: 'flex-end',
+				flexDirection: 'column',
+				gap: '5px'
+			}} marginBottom={1}>
+				<FormControl sx={{ minWidth: 120 }}>
+					<InputLabel id="grid-view-select-label">Columns</InputLabel>
 					<Select
 						labelId="grid-view-select-label"
 						id="aspect-ratio-select"
 						value={perColumn}
-						label="Per Columns"
+						label="Columns"
 						size='small'
 						onChange={(event) => setPerColumn(event.target.value)}
 					>
-						<MenuItem value="2">2</MenuItem>
-						<MenuItem value="3">3</MenuItem>
-						<MenuItem value="4">4</MenuItem>
+						<MenuItem value="6">2</MenuItem>
+						<MenuItem value="4">3</MenuItem>
+						<MenuItem value="3">4</MenuItem>
 					</Select>
 				</FormControl>
-			</Grid>
+			</Box>
 
 			<Grid container spacing={2}>
 				{files && files.map((file, index) => {
 					return (
-						<Grid item xs={4} sm={4} md={3} key={index}>
+						<Grid item xs={perColumn} key={index}>
 							<ImagePreview file={file} />
 						</Grid>
 					)

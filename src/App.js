@@ -9,6 +9,7 @@ import './assets/scss/App.scss';
 
 import Sidebar from './components/Sidebar/index';
 import WorkingArea from './components/WorkingArea';
+import SplashScreen from './components/SplashScreen';
 
 
 
@@ -40,26 +41,22 @@ const darkTheme = createTheme({
 });
 
 function App() {
-	const dispatch = useDispatch()
-	const settings = useSelector((state) => state.settings)
-	const files = useSelector((state) => state.files)
+	const [appLoading, setAppLoading] = useState(true)
 
 	useEffect(() => {
 		console.log('App initialized')
-
-		return () => {
-
-		}
 	}, [])
 
 	return (
 		<>
 		<ThemeProvider theme={darkTheme}>
 			<CssBaseline />
+			{appLoading ? <SplashScreen setAppLoading={setAppLoading} /> : (
 			<div id='appContainer'>
 				<Sidebar />
 				<WorkingArea />
 			</div>
+			)}
 		</ThemeProvider>
 		</>
 	)

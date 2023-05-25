@@ -32,7 +32,7 @@ const Sidebar = () => {
 
 	return (
 		<div id='sidebar'>
-			<img src={logo} className='logo' height={80} />
+			<img src={logo} className='logo' height={60} />
 
 			<Accordion defaultExpanded>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />} >
