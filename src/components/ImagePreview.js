@@ -45,17 +45,18 @@ const ImagePreview = ({ file }) => {
 		}
 	
 		return () => {
-			maskRef.current.removeEventListener('mousedown', onMouseDown);
-			maskRef.current.removeEventListener('mouseup', onMouseUp);
-			maskRef.current.removeEventListener('mousemove', onMouseMove);
-			maskRef.current.removeEventListener('mouseleave', onMouseUp);
+			if (maskRef && maskRef.current) {
+				maskRef.current.removeEventListener('mousedown', onMouseDown);
+				maskRef.current.removeEventListener('mouseup', onMouseUp);
+				maskRef.current.removeEventListener('mousemove', onMouseMove);
+				maskRef.current.removeEventListener('mouseleave', onMouseUp);
+			}
 		}
 	}, [imageData, settings])
 
 	useEffect(() => {
 		if (cropData) {
 			drawMask()
-			//_image_mousemove
 		}
 	}, [cropData])
 

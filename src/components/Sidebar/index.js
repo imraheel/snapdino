@@ -12,6 +12,7 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 
 import { updateSetting, resetSettings } from '../../redux/settingsSlice';
+import { removeAllFiles } from '../../redux/filesSlice';
 
 import logo from '../../assets/images/logo-light.svg'
 
@@ -62,10 +63,21 @@ const Sidebar = () => {
 			
 			<Grid container spacing={2} marginTop={1}>
 				<Grid item xs={6}>
-					<Button variant="text" color='secondary' size='small' fullWidth disabled={true}>Remove All</Button>
+					<Button variant="text" 
+						color='secondary' 
+						size='small' 
+						fullWidth 
+						disabled={files.length === 0}
+						onClick={() => dispatch(removeAllFiles())}
+					>Remove All</Button>
 				</Grid>
 				<Grid item xs={6}>
-					<Button variant="text" color='secondary' size='small' fullWidth onClick={() => dispatch(resetSettings())}>Reset Settings</Button>
+					<Button variant="text" 
+						color='secondary' 
+						size='small' 
+						fullWidth 
+						onClick={() => dispatch(resetSettings())}
+					>Reset Settings</Button>
 				</Grid>
 			</Grid>
 		</div>

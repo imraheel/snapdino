@@ -106,7 +106,6 @@ const WorkingArea = () => {
 			onDragLeave={handleDrag} 
 			onDragOver={handleDrag} 
 			onDrop={handleDrop} >
-			<input type='file' id='file' ref={inputFileRef} accept="image/*" multiple style={{display: 'none'}} onChange={(e) => selectFiles(e.target.files)} />
 			
 			<Box sx={{
 				display: 'flex',
