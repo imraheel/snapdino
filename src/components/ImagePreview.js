@@ -9,7 +9,10 @@ import { red } from '@mui/material/colors';
 import smartcrop from 'smartcrop';
 
 import pattern from '../assets/images/pattern.svg'
-import { removeFile } from '../redux/filesSlice';
+import { removeFile, updateFileData } from '../redux/filesSlice';
+
+const maskPattern = new Image(20, 20);
+maskPattern.src = pattern;
 
 let isMouseDown = false;
 let mouseDownX = 0;
@@ -25,8 +28,7 @@ const ImagePreview = ({ fileObj }) => {
 	const [imageData, setImageData] = useState(null)
 	const [cropData, setCropData] = useState(null)
 
-	const mask_pattern = new Image(20, 20);
-	mask_pattern.src = pattern;
+	
 
 	useEffect(() => {
 		handleImageLoad();
@@ -35,8 +37,6 @@ const ImagePreview = ({ fileObj }) => {
 
 	useEffect(() => {
 		if (imageData) {
-			initCropper();
-
 			if (maskRef) {
 				maskRef.current.width = imageData.image.offsetWidth;
 				maskRef.current.height = imageData.image.offsetHeight;
@@ -46,6 +46,8 @@ const ImagePreview = ({ fileObj }) => {
 				maskRef.current.addEventListener('mousemove', onMouseMove);
 				maskRef.current.addEventListener('mouseleave', onMouseUp);
 			}
+
+			initCropper();
 		}
 	
 		return () => {
@@ -170,13 +172,21 @@ const ImagePreview = ({ fileObj }) => {
 		// console.log({ tw, th, fx, fy, w, h, nw, nh })
 		
 		const ctx = maskRef.current.getContext("2d");
-		ctx.fillStyle = ctx.createPattern(mask_pattern, "repeat");
+		ctx.fillStyle = ctx.createPattern(maskPattern, "repeat");
 		ctx.fillRect(0, 0, w, h);
 		ctx.clearRect((w - nw) * fx, (h - nh) * fy, nw, nh);
 
 		if (!customFocal) {
 			lastFocalX = fx
 			lastFocalY = fy
+
+			dispatch(updateFileData({
+				id: fileObj.id,
+				data: {
+					focalX: fx,
+					focalY: fy,
+				}
+			}))
 		}
 	}
 
@@ -190,48 +200,34 @@ const ImagePreview = ({ fileObj }) => {
 	const onMouseUp = (event) => {
 		isMouseDown = false;
 
-		let x = event.clientX;
-		let y = event.clientY;
-		let ox = mouseDownX
-		let oy = mouseDownY;
+		let newFx = lastFocalX + ((event.clientX - mouseDownX) / imageData.image.offsetWidth) * 2;
+		let newFy = lastFocalY + ((event.clientY - mouseDownY) / imageData.image.offsetHeight) * 2;
 
-		let fx = lastFocalX;
-		let fy = lastFocalY;
+		newFx = Math.max(0, Math.min(1, newFx));
+		newFy = Math.max(0, Math.min(1, newFy));
 
-		let new_fx = fx + ((x - ox) / imageData.image.offsetWidth) * 2;
-		let new_fy = fy + ((y - oy) / imageData.image.offsetHeight) * 2;
+		lastFocalX = newFx
+		lastFocalY = newFy
 
-		new_fx = Math.max(0, Math.min(1, new_fx));
-		new_fy = Math.max(0, Math.min(1, new_fy));
-
-		lastFocalX = new_fx
-		lastFocalY = new_fy
+		dispatch(updateFileData({
+			id: fileObj.id,
+			data: {
+				focalX: newFx,
+				focalY: newFy,
+			}
+		}))
 	}
 	const onMouseMove = (event) => {
 		if (isMouseDown) {
 
-			let x = event.clientX;
-			let y = event.clientY;
-			let ox = mouseDownX
-			let oy = mouseDownY;
+			let newFx = lastFocalX + ((event.clientX - mouseDownX) / imageData.image.offsetWidth) * 2;
+			let newFy = lastFocalY + ((event.clientY - mouseDownY) / imageData.image.offsetHeight) * 2;
 
-			let fx = lastFocalX;
-			let fy = lastFocalY;
+			newFx = Math.max(0, Math.min(1, newFx));
+			newFy = Math.max(0, Math.min(1, newFy));
 
-			let new_fx = fx + ((x - ox) / imageData.image.offsetWidth) * 2;
-			let new_fy = fy + ((y - oy) / imageData.image.offsetHeight) * 2;
-
-			new_fx = Math.max(0, Math.min(1, new_fx));
-			new_fy = Math.max(0, Math.min(1, new_fy));
-
-			// file.fx = new_fx;
-			// file.fy = new_fy;
-			// file.is_custom_focal = true;
-
-			if (new_fx != fx || new_fy != fy) {
-				// console.log({new_fx, new_fy})
-
-				drawMask(true, new_fx, new_fy)
+			if (newFx != lastFocalX || newFy != lastFocalY) {
+				drawMask(true, newFx, newFy)
 			}
 		}
 	}
@@ -244,7 +240,7 @@ const ImagePreview = ({ fileObj }) => {
 				</>
 			) : null}
 
-			<div ref={imageContainerRef} className='img-container'>
+			<div className='preview-container'>
 				<canvas 
 					className="mask-canvas" 
 					ref={maskRef}
@@ -252,17 +248,18 @@ const ImagePreview = ({ fileObj }) => {
 					height={0} 
 					style={{ top: 0, left: 0 }} 
 				/>
-			</div>
+				<div ref={imageContainerRef}></div>
 
-			{settings.debugMode ? (
-				<canvas 
-					className="debug-canvas" 
-					ref={debugRef}
-					width={0} 
-					height={0} 
-					style={{ top: 0, left: 0, width: '100%'}} 
-				/>
-			) : null}
+				{settings.debugMode ? (
+					<canvas 
+						className="debug-canvas" 
+						ref={debugRef}
+						width={0} 
+						height={0} 
+						style={{ top: 0, left: 0, width: '100%'}} 
+					/>
+				) : null}
+			</div>
 
 			<Stack direction="row" spacing={1} justifyContent="space-between" alignItems="center">
 				<Typography style={{

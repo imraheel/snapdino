@@ -10,7 +10,7 @@ const SplashScreen = ({setAppLoading}) => {
 	useEffect(() => {
 		setTimeout(() => {
 			setAppLoading(false)
-		}, 2000)
+		}, 1000)
 	}, [])
 
 	return (

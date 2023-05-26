@@ -49,11 +49,11 @@ const WorkingArea = () => {
 	const [perColumn, setPerColumn] = useState(4)
 
 	useEffect(() => {
-		
+		// console.log('files', files)
 		return () => {
 
 		}
-	}, [])
+	}, [files])
 
 	/**
 	 * Selects and adds the specified files to the application.
@@ -122,7 +122,7 @@ const WorkingArea = () => {
 						value={perColumn}
 						label="Columns"
 						size='small'
-						onChange={(event) => setPerColumn(event.target.value)}
+						onChange={(event) => setPerColumn(parseInt(event.target.value))}
 					>
 						<MenuItem value="6">2</MenuItem>
 						<MenuItem value="4">3</MenuItem>

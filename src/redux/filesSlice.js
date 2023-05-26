@@ -12,13 +12,23 @@ const filesSlice = createSlice({
 				state.push({
 					id: uuid(),
 					file: file,
-					data: {}
+					data: {
+						focalX: 0,
+						focalY: 0,
+					}
 				})
 			});
 		},
 
+		updateFileData: (state, action) => {
+			const file = state.find(file => file.id === action.payload.id)
+			file.data = {
+				...file.data, 
+				...action.payload.data
+			}
+		},
+
 		removeFile: (state, action) => {
-			console.log(action.payload)
 			return state.filter(file => file.id !== action.payload)
 		},
 
@@ -26,5 +36,5 @@ const filesSlice = createSlice({
 	}
 })
 
-export const { addFiles, removeFile, removeAllFiles } = filesSlice.actions
+export const { addFiles, updateFileData, removeFile, removeAllFiles } = filesSlice.actions
 export default filesSlice.reducer
