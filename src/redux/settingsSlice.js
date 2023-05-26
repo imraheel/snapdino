@@ -11,6 +11,14 @@ const initialState = {
 	height: 600,
 	aspectRatio: '1:1',
 	autoFocalPoint: true,
+
+
+	borderWidth: 0,
+	borderColor: '#000',
+
+
+	outputFormat: 'jpeg',
+	outputQuality: 80,
 }
 
 const settingsSlice = createSlice({

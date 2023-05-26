@@ -9,7 +9,7 @@ import { red } from '@mui/material/colors';
 import smartcrop from 'smartcrop';
 
 import pattern from '../assets/images/pattern.svg'
-import { removeFile, updateFileData } from '../redux/filesSlice';
+import { removeFile, updateFile } from '../redux/filesSlice';
 
 const maskPattern = new Image(20, 20);
 maskPattern.src = pattern;
@@ -44,10 +44,16 @@ const ImagePreview = ({ fileObj }) => {
 				maskRef.current.addEventListener('mousedown', onMouseDown);
 				maskRef.current.addEventListener('mouseup', onMouseUp);
 				maskRef.current.addEventListener('mousemove', onMouseMove);
-				maskRef.current.addEventListener('mouseleave', onMouseUp);
 			}
 
 			initCropper();
+
+			dispatch(updateFile({
+				id: fileObj.id,
+				image: imageData.image,
+				originalWidth: imageData.originalWidth,
+				originalHeight: imageData.originalHeight,
+			}))
 		}
 	
 		return () => {
@@ -55,7 +61,6 @@ const ImagePreview = ({ fileObj }) => {
 				maskRef.current.removeEventListener('mousedown', onMouseDown);
 				maskRef.current.removeEventListener('mouseup', onMouseUp);
 				maskRef.current.removeEventListener('mousemove', onMouseMove);
-				maskRef.current.removeEventListener('mouseleave', onMouseUp);
 			}
 		}
 	}, [imageData, settings])
@@ -72,6 +77,7 @@ const ImagePreview = ({ fileObj }) => {
 		// console.log('imageData', data)
 
 		if (imageContainerRef.current) {
+			imageContainerRef.current.innerHTML = '';
 			imageContainerRef.current.appendChild(data.image);
 		}
 
@@ -91,7 +97,7 @@ const ImagePreview = ({ fileObj }) => {
 			debug: settings.debugMode,
 		});
 
-		console.log('smartcrop', result)
+		// console.log('smartcrop', result)
 		
 		if (result.debugOutput) {
 			debugDraw(result, true)
@@ -180,12 +186,10 @@ const ImagePreview = ({ fileObj }) => {
 			lastFocalX = fx
 			lastFocalY = fy
 
-			dispatch(updateFileData({
+			dispatch(updateFile({
 				id: fileObj.id,
-				data: {
-					focalX: fx,
-					focalY: fy,
-				}
+				focalX: fx,
+				focalY: fy,
 			}))
 		}
 	}
@@ -209,12 +213,10 @@ const ImagePreview = ({ fileObj }) => {
 		lastFocalX = newFx
 		lastFocalY = newFy
 
-		dispatch(updateFileData({
+		dispatch(updateFile({
 			id: fileObj.id,
-			data: {
-				focalX: newFx,
-				focalY: newFy,
-			}
+			focalX: newFx,
+			focalY: newFy,
 		}))
 	}
 	const onMouseMove = (event) => {

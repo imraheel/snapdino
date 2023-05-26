@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import Box from '@mui/material/Box';
 import { Typography, Button, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import Masonry from '@mui/lab/Masonry';
 
 import { addFiles } from '../redux/filesSlice';
 import { updateSetting } from '../redux/settingsSlice';
@@ -49,11 +50,34 @@ const WorkingArea = () => {
 	const [perColumn, setPerColumn] = useState(4)
 
 	useEffect(() => {
-		// console.log('files', files)
+		console.log('files', files)
 		return () => {
 
 		}
 	}, [files])
+
+
+
+	// hack to ignore ResizeObserver error until MUI team fix this issue
+	// https://github.com/mui/material-ui/issues/36909#issuecomment-1533566818
+	useEffect(() => {
+		window.addEventListener('error', e => {
+			if (e.message === 'ResizeObserver loop limit exceeded') {
+				const resizeObserverErrDiv = document.getElementById(
+					'webpack-dev-server-client-overlay-div'
+				);
+				const resizeObserverErr = document.getElementById(
+					'webpack-dev-server-client-overlay'
+				);
+				if (resizeObserverErr) {
+					resizeObserverErr.setAttribute('style', 'display: none');
+				}
+				if (resizeObserverErrDiv) {
+					resizeObserverErrDiv.setAttribute('style', 'display: none');
+				}
+			}
+		});
+	}, []);
 
 	/**
 	 * Selects and adds the specified files to the application.
@@ -131,7 +155,16 @@ const WorkingArea = () => {
 				</FormControl>
 			</Box>
 
-			<Grid container spacing={2}>
+			<Masonry columns={3} spacing={2}>
+				{files && files.map((fileObj, index) => {
+					return (
+						<Grid key={fileObj.id}>
+							<ImagePreview fileObj={fileObj} />
+						</Grid>
+					)
+				})}
+			</Masonry>
+			{/* <Grid container spacing={2}>
 				{files && files.map((fileObj, index) => {
 					return (
 						<Grid item xs={perColumn} key={fileObj.id}>
@@ -139,7 +172,7 @@ const WorkingArea = () => {
 						</Grid>
 					)
 				})}
-			</Grid>
+			</Grid> */}
 		</div>
 	)
 }

@@ -76,11 +76,11 @@ body,
 		.mask-canvas {
 			z-index: 1;
 			position: absolute;
-			opacity: 0.8;
+			opacity: 0.9;
 			transition: opacity 0.2s;
 
 			&:hover {
-				opacity: 0.5;
+				opacity: 0.6;
 			}
 		}
 		img {
