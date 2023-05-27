@@ -1,12 +1,17 @@
-const path = require('path');
 
-const { app, BrowserWindow, session, systemPreferences } = require('electron');
+const path = require('path');
+const { app, BrowserWindow, session, systemPreferences, ipcMain } = require('electron');
+const IpcEvents = require('./events');
+
 const isDev = true;
 
 process.env['NODE_' + 'ENV'] = process.env.NODE_ENV
 
+
 function createWindow() {
-	// Create the browser window.
+	/** 
+	 * Create the browser window.
+	 */
 	const win = new BrowserWindow({
 		width: 1100,
 		height: 700,
@@ -15,14 +20,20 @@ function createWindow() {
 		resizable: true,
 		// icon: true,
 		webPreferences: {
+			preload: path.join(__dirname, 'preload.js'),
 			nodeIntegration: true,
-			// webSecurity: false,
-			// allowRunningInsecureContent: true,
+			contextIsolation: true,
 		},
 	});
 
-	// and load the index.html of the app.
-	// win.loadFile("index.html");
+	/** 
+	 * Sets up the Electron IPC (Inter-Process Communication) listeners for file saving and directory retrieval.
+	 */
+	const ipcEvents = new IpcEvents(win);
+	ipcEvents.setUpListeners();
+
+
+
 	win.loadURL(
 		isDev
 			? 'http://localhost:4100'

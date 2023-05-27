@@ -19,7 +19,7 @@ let mouseDownX = 0;
 let mouseDownY = 0;
 let lastFocalX = 0;
 let lastFocalY = 0;
-const ImagePreview = ({ fileObj }) => {
+const ImagePreview = ({ fileObj, viewColumns = 3, windowSize }) => {
 	const dispatch = useDispatch()
 	const settings = useSelector((state) => state.settings)
 	const imageContainerRef = useRef(null) 
@@ -63,7 +63,7 @@ const ImagePreview = ({ fileObj }) => {
 				maskRef.current.removeEventListener('mousemove', onMouseMove);
 			}
 		}
-	}, [imageData, settings])
+	}, [imageData, settings, viewColumns, windowSize])
 
 	useEffect(() => {
 		if (cropData) {
@@ -73,8 +73,11 @@ const ImagePreview = ({ fileObj }) => {
 
 
 	const handleImageLoad = async () => {
-		const data = await loadImage(fileObj.file, {})
-		// console.log('imageData', data)
+		const data = await loadImage(fileObj.file, {
+			meta: false,
+			canvas: false,
+		})
+		console.log('imageData', data)
 
 		if (imageContainerRef.current) {
 			imageContainerRef.current.innerHTML = '';

@@ -10,6 +10,7 @@ import { updateSetting } from '../redux/settingsSlice';
 
 import imagePlaceholder from '../assets/images/image-placeholder.png'
 import ImagePreview from './ImagePreview';
+import useWindowSize from '../hooks/useWindowSize';
 
 const DropPlaceholder = ({inputFileRef, selectFiles}) => {
 
@@ -46,11 +47,12 @@ const WorkingArea = () => {
 	const dispatch = useDispatch()
 	const settings = useSelector((state) => state.settings)
 	const files = useSelector((state) => state.files)
+	const windowSize = useWindowSize();
 	const inputFileRef = useRef(null) 
-	const [perColumn, setPerColumn] = useState(4)
+	const [perColumn, setPerColumn] = useState(3)
 
 	useEffect(() => {
-		console.log('files', files)
+		console.log('files', files, settings.outputDirectory)
 		return () => {
 
 		}
@@ -58,8 +60,10 @@ const WorkingArea = () => {
 
 
 
-	// hack to ignore ResizeObserver error until MUI team fix this issue
-	// https://github.com/mui/material-ui/issues/36909#issuecomment-1533566818
+	/** 
+	 * hack to ignore ResizeObserver error until MUI team fix this issue
+	 * https://github.com/mui/material-ui/issues/36909#issuecomment-1533566818
+	 */
 	useEffect(() => {
 		window.addEventListener('error', e => {
 			if (e.message === 'ResizeObserver loop limit exceeded') {
@@ -148,18 +152,18 @@ const WorkingArea = () => {
 						size='small'
 						onChange={(event) => setPerColumn(parseInt(event.target.value))}
 					>
-						<MenuItem value="6">2</MenuItem>
-						<MenuItem value="4">3</MenuItem>
-						<MenuItem value="3">4</MenuItem>
+						<MenuItem value="2">2</MenuItem>
+						<MenuItem value="3">3</MenuItem>
+						<MenuItem value="4">4</MenuItem>
 					</Select>
 				</FormControl>
 			</Box>
 
-			<Masonry columns={3} spacing={2}>
+			<Masonry columns={perColumn} spacing={2}>
 				{files && files.map((fileObj, index) => {
 					return (
 						<Grid key={fileObj.id}>
-							<ImagePreview fileObj={fileObj} />
+							<ImagePreview fileObj={fileObj} viewColumns={perColumn} windowSize={windowSize} />
 						</Grid>
 					)
 				})}

@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"description": "SnapDino - Image crop, resize and enhance made easy",
 	"author": "Raheel Khan",
-	"main": "electron.js",
+	"main": "app/electron.js",
 	"homepage": ".",
 	"scripts": {
 		"start": "react-scripts start",
@@ -16,7 +16,7 @@
 		"build:win": "electron-builder --win"
 	},
 	"build": {
-		"appId": "com.snapdino",
+		"appId": "com.snapdino.app",
 		"productName": "SnapDino",
 		"mac": {
 			"icon": "./public/icons/mac/icon.icns"

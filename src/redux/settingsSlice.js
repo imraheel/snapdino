@@ -19,6 +19,7 @@ const initialState = {
 
 	outputFormat: 'jpeg',
 	outputQuality: 80,
+	outputDirectory: null,
 }
 
 const settingsSlice = createSlice({
