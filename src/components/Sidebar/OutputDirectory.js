@@ -1,0 +1,53 @@
+import React, { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+
+import Box from '@mui/material/Box';
+import InputBase from '@mui/material/InputBase';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import FolderIcon from '@mui/icons-material/Folder';
+
+import { updateSetting } from '../../redux/settingsSlice';
+
+
+const OutputDirectory = () => {
+	const dispatch = useDispatch()
+	const settings = useSelector((state) => state.settings)
+	
+	useEffect(() => {
+		
+		window.electronAPI.onOutputDirectory((event, directory) => {
+			if (directory) {
+				dispatch(updateSetting({
+					outputDirectory: directory
+				}))
+			}
+		})
+
+	}, [])
+
+	const openDirectoryDialog = () => {
+		window.electronAPI.getOutputDirectory()
+	}
+
+	return (
+		<>
+			<Box sx={{ display: 'flex', alignItems: 'center', }}>
+				<InputBase
+					sx={{ ml: 1, flex: 1 }}
+					placeholder="Output Directory"
+					value={settings?.outputDirectory}
+					disabled
+					inputProps={{ 'aria-label': 'Output Directory' }}
+				/>
+				<Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+				<IconButton color="secondary" sx={{ p: '10px' }} aria-label="open directory" onClick={openDirectoryDialog}>
+					<FolderIcon />
+				</IconButton>
+			</Box>
+		</>
+	)
+}
+
+
+export default OutputDirectory;

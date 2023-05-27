@@ -16,7 +16,7 @@ import Switch from '@mui/material/Switch';
 import { updateSetting } from '../../redux/settingsSlice';
 
 
-const SettingCrop = () => {
+const ResizeCrop = () => {
 	const dispatch = useDispatch()
 	const settings = useSelector((state) => state.settings)
 	const files = useSelector((state) => state.files)
@@ -201,4 +201,4 @@ const SettingCrop = () => {
 }
 
 
-export default SettingCrop;
+export default ResizeCrop;

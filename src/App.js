@@ -45,12 +45,13 @@ function App() {
 	const settings = useSelector((state) => state.settings)
 	const files = useSelector((state) => state.files)
 	const [appLoading, setAppLoading] = useState(true)
+	const [isProcessing, setIsProcessing] = useState(false)
 
 	useEffect(() => {
 		console.log('App initialized')
 	}, [])
 
-	const saveFiles = async () => {
+	const startProcessing = async () => {
 		console.log(settings.outputDirectory)
 		if (files.length === 0) return
 
@@ -164,8 +165,8 @@ function App() {
 			<CssBaseline />
 			{appLoading ? <SplashScreen setAppLoading={setAppLoading} /> : (
 			<div id='appContainer'>
-				<Sidebar saveFiles={saveFiles} />
-				<WorkingArea />
+				<Sidebar startProcessing={startProcessing} isProcessing={isProcessing} />
+				<WorkingArea isProcessing={isProcessing} />
 			</div>
 			)}
 		</ThemeProvider>

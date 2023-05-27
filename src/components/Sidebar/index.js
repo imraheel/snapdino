@@ -9,6 +9,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
 import { saveAs } from 'file-saver';
@@ -18,9 +19,10 @@ import { removeAllFiles } from '../../redux/filesSlice';
 
 import logo from '../../assets/images/logo-light.svg'
 
-import SettingCrop from './SettingCrop'
+import ResizeCrop from './ResizeCrop'
+import OutputDirectory from './OutputDirectory'
 
-const Sidebar = ({ saveFiles }) => {
+const Sidebar = ({ startProcessing, isProcessing }) => {
 	const dispatch = useDispatch()
 	const settings = useSelector((state) => state.settings)
 	const files = useSelector((state) => state.files)
@@ -42,7 +44,7 @@ const Sidebar = ({ saveFiles }) => {
 					<Typography color={settings?.disableCrop ? "GrayText" : "white"} >Resize & Crop</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<SettingCrop />
+					<ResizeCrop />
 				</AccordionDetails>
 			</Accordion>
 			<Accordion>
@@ -53,10 +55,22 @@ const Sidebar = ({ saveFiles }) => {
 					
 				</AccordionDetails>
 			</Accordion>
+			<Accordion>
+				<AccordionSummary expandIcon={<ExpandMoreIcon />} >
+					<Typography>Output Directory</Typography>
+				</AccordionSummary>
+				<AccordionDetails>
+					<OutputDirectory />
+				</AccordionDetails>
+			</Accordion>
 
 			<Grid container spacing={2} marginTop={1}>
 				<Grid item xs={12}>
-					<Button variant="contained" fullWidth onClick={saveFiles}>Start Processing</Button>
+					<Button variant="contained" 
+						fullWidth 
+						disabled={isProcessing || files.length === 0}
+						onClick={startProcessing}
+					>Start Processing</Button>
 				</Grid>
 			</Grid>
 			
