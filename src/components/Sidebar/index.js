@@ -56,7 +56,7 @@ const Sidebar = ({ saveFiles }) => {
 
 			<Grid container spacing={2} marginTop={1}>
 				<Grid item xs={12}>
-					<Button variant="contained" fullWidth onClick={saveFiles}>Save Files</Button>
+					<Button variant="contained" fullWidth onClick={saveFiles}>Start Processing</Button>
 				</Grid>
 			</Grid>
 			
