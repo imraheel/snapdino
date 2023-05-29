@@ -17,9 +17,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
 	*/
 	saveFile: (arrayBuffer, id, fileName, outputPath) => ipcRenderer.send('save-file', arrayBuffer, id, fileName, outputPath),
 
-
+	/**
+	 * Registers a callback function to be called when the file is saved.
+	 * @param {Function} callback - The callback function to be executed when the file is saved.
+	 */
 	fileSaved: (callback) => ipcRenderer.on('file-saved', callback),
-	
+
 	/**
 	 * Sends a request to retrieve the default download directory.
 	 */
