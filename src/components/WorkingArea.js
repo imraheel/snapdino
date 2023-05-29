@@ -197,15 +197,6 @@ const WorkingArea = ({ isProcessing }) => {
 					)
 				})}
 			</Masonry>
-			{/* <Grid container spacing={2}>
-				{files && files.map((fileObj, index) => {
-					return (
-						<Grid item xs={perColumn} key={fileObj.id}>
-							<ImagePreview fileObj={fileObj} />
-						</Grid>
-					)
-				})}
-			</Grid> */}
 		</div>
 	)
 }
