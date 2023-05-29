@@ -3,7 +3,7 @@ const path = require('path');
 const { app, BrowserWindow, session, systemPreferences, ipcMain } = require('electron');
 const IpcEvents = require('./events');
 
-const isDev = true;
+const isDev = require('electron-is-dev');
 
 process.env['NODE_' + 'ENV'] = process.env.NODE_ENV
 

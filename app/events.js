@@ -1,5 +1,5 @@
 
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
@@ -19,6 +19,7 @@ class IpcEvents {
 		ipcMain.on('save-file', this.writeFileToLocation)
 		ipcMain.on('get-default-download-directory', this.getDefaultDownloadDirectory)
 		ipcMain.on('get-output-directory', this.getOutputDirectory)
+		ipcMain.on('open-output-directory', this.openOutputDirectory)
 	}
 
 
@@ -27,10 +28,12 @@ class IpcEvents {
 	 * It converts the array buffer to a buffer and saves it to the file.
 	 * @param {Event} event - The event object that triggered the function.
 	 * @param {ArrayBuffer} arrayBuffer - The array buffer to be written to the file.
+	 * @param {string} id - Unique identifier of the file to be saved.
 	 * @param {string} fileName - The name of the file to be saved.
 	 * @param {string} outputPath - (Optional) The output path where the file should be saved. If not provided, the default downloads directory will be used.
 	 */
-	writeFileToLocation = (event, arrayBuffer, fileName, outputPath = null) => {
+	writeFileToLocation = (event, arrayBuffer, id, fileName, outputPath = null) => {
+		const webContents = event.sender
 		const buffer = Buffer.from(arrayBuffer)
 
 		const fileSavePath = path.join(((outputPath) ? outputPath : app.getPath('downloads')), fileName)
@@ -40,6 +43,7 @@ class IpcEvents {
 				console.log(error)
 			} else {
 				console.log('file saved')
+				webContents.send('file-saved', id, fileName)
 			}
 		});
 	}
@@ -51,10 +55,9 @@ class IpcEvents {
 	 */
 	getDefaultDownloadDirectory = (event) => {
 		const webContents = event.sender
-		const win = BrowserWindow.fromWebContents(webContents)
 		const path = app.getPath('downloads');
 
-		win.webContents.send('get-default-download-directory', path)
+		webContents.send('get-default-download-directory', path)
 	}
 
 
@@ -70,13 +73,24 @@ class IpcEvents {
 			properties: ['openDirectory']
 		}).then(result => {
 			if (!result.canceled) {
-				win.webContents.send('get-output-directory', result.filePaths[0])
+				webContents.send('get-output-directory', result.filePaths[0])
 			}
 		}).catch(err => {
 			console.log(err)
 		})
 	}
 
+	/**
+	 * Opens the given output directory in the desktop's default manner.
+	 * @param {Event} event - The event object that triggered the function.
+	 * @param {string} outputPath - (Optional) The output path where the file should be saved. If not provided, the default downloads directory will be used.
+	 */
+	openOutputDirectory = (event, outputPath = null) => {
+		outputPath = (outputPath) ? outputPath : app.getPath('downloads')
+
+		// shell.showItemInFolder('filepath') // Show the given file in a file manager. If possible, select the file.
+		shell.openPath(outputPath) // Open the given file in the desktop's default manner.
+	}
 }
 
 module.exports = IpcEvents

@@ -11,6 +11,8 @@ import Sidebar from './components/Sidebar/index';
 import WorkingArea from './components/WorkingArea';
 import SplashScreen from './components/SplashScreen';
 
+import { removeFile } from './redux/filesSlice';
+
 
 
 const darkTheme = createTheme({
@@ -49,15 +51,35 @@ function App() {
 
 	useEffect(() => {
 		console.log('App initialized')
+
+		window.electronAPI.fileSaved((event, id, fileName) => {
+			console.log('fileSaved: ', id, fileName)
+			dispatch(removeFile(id))
+		})
+
 	}, [])
 
+	useEffect(() => {
+		if (isProcessing) {
+			saveNextFile()
+		}
+	}, [files])
+
 	const startProcessing = async () => {
-		console.log(settings.outputDirectory)
 		if (files.length === 0) return
 
-		for (let file of files) {
-			await saveFileToLocation(file)
+		setIsProcessing(true);
+		saveNextFile()
+	}
+
+	const saveNextFile = () => {
+		if (files.length === 0) {
+			window.electronAPI.openOutputDirectory(settings.outputDirectory)
+			setIsProcessing(false);
+			return
 		}
+
+		saveFileToLocation(files[0])
 	}
 
 	const saveFileToLocation = (fileObj) => {
@@ -127,8 +149,7 @@ function App() {
 			canvas.toBlob(
 				async blob => {
 					const arrayBuffer = await blob.arrayBuffer();
-					// saveAs(blob, filename);
-					window.electronAPI.setFile(arrayBuffer, filename, settings.outputDirectory)
+					window.electronAPI.saveFile(arrayBuffer, fileObj.id, filename, settings.outputDirectory)
 					resolve()
 				},
 				output.format,

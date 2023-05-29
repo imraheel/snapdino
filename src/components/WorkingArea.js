@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Box from '@mui/material/Box';
 import { Typography, Button, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import Masonry from '@mui/lab/Masonry';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { addFiles } from '../redux/filesSlice';
 import { updateSetting } from '../redux/settingsSlice';
@@ -12,7 +13,8 @@ import imagePlaceholder from '../assets/images/image-placeholder.png'
 import ImagePreview from './ImagePreview';
 import useWindowSize from '../hooks/useWindowSize';
 
-const DropPlaceholder = ({inputFileRef, selectFiles}) => {
+const DropPlaceholder = ({selectFiles}) => {
+	const inputFileRef = useRef(null) 
 
 	return (
 		<Box  sx={{ 
@@ -43,20 +45,44 @@ const DropPlaceholder = ({inputFileRef, selectFiles}) => {
 	)
 }
 
-const WorkingArea = () => {
+const ProcessingOverlay = ({ isProcessing }) => {
+	const files = useSelector((state) => state.files)
+
+	return (
+		<Box sx={{
+			position: 'absolute',
+			top: 0,
+			left: 0,
+			width: '100%',
+			height: '100%',
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+			flexDirection: 'column',
+			zIndex: 5,
+			background: 'rgba(0,0,0,0.7)',
+			gap: '15px'
+		}}>
+			<Typography variant="h4" >Processing...</Typography>
+			<CircularProgress />
+			<Typography >{files.length} files remaining</Typography>
+		</Box>
+	)
+}
+
+const WorkingArea = ({ isProcessing }) => {
 	const dispatch = useDispatch()
 	const settings = useSelector((state) => state.settings)
 	const files = useSelector((state) => state.files)
 	const windowSize = useWindowSize();
-	const inputFileRef = useRef(null) 
+	const workingAreaRef = useRef(null) 
 	const [perColumn, setPerColumn] = useState(3)
 
 	useEffect(() => {
-		console.log('files', files, settings.outputDirectory)
-		return () => {
-
+		if (isProcessing) {
+			workingAreaRef.current.scrollTo(0, 0);
 		}
-	}, [files])
+	}, [isProcessing])
 
 
 
@@ -123,18 +149,21 @@ const WorkingArea = () => {
 				onDragLeave={handleDrag} 
 				onDragOver={handleDrag} 
 				onDrop={handleDrop} >
-				<DropPlaceholder inputFileRef={inputFileRef} selectFiles={selectFiles} />
+				<DropPlaceholder selectFiles={selectFiles} />
 			</div>
 		)	
 	}
 
 	return (
 		<div id='workingArea' 
+			ref={workingAreaRef}
 			onDragEnter={handleDrag} 
 			onDragLeave={handleDrag} 
 			onDragOver={handleDrag} 
 			onDrop={handleDrop} >
 			
+			{isProcessing && <ProcessingOverlay isProcessing={isProcessing} />}
+
 			<Box sx={{
 				display: 'flex',
 				justifyContent: 'flex-end',
