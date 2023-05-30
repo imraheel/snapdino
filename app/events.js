@@ -70,7 +70,7 @@ class IpcEvents {
 		const win = BrowserWindow.fromWebContents(webContents)
 
 		dialog.showOpenDialog(win, {
-			properties: ['openDirectory']
+			properties: ['openDirectory', 'createDirectory']
 		}).then(result => {
 			if (!result.canceled) {
 				webContents.send('get-output-directory', result.filePaths[0])

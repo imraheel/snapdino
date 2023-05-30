@@ -164,6 +164,7 @@ const ResizeCrop = () => {
 							labelId="aspect-ratio-select-label"
 							id="aspect-ratio-select"
 							value={settings.aspectRatio}
+							disabled={settings.autoWidth || settings.autoHeight}
 							label="Aspect Ratio"
 							size='small'
 							onChange={(event) => updateAspectRatio(event.target.value)}
@@ -179,7 +180,7 @@ const ResizeCrop = () => {
 
 				<Grid marginBottom={1}>
 					<FormControl fullWidth>
-						<FormControlLabel control={<Switch checked={settings.autoFocalPoint} onChange={() => {
+						<FormControlLabel control={<Switch checked={settings.autoFocalPoint} disabled={settings.autoWidth || settings.autoHeight} onChange={() => {
 							dispatch(updateSetting({
 								autoFocalPoint: !settings.autoFocalPoint
 							}))

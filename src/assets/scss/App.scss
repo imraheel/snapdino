@@ -1,15 +1,8 @@
-$color1: #252931;
-$color2: #282c34;
-$color3: #1d2025;
-$color4: #cccccc;
-// $color5: #528bff;
-$color5: #1684ac;
-$color6: #abb2bf;
+$primary-color: #1684ac;
+$bg-color-1: #252931;
+$bg-color-2: #1d2025;
 
-$color1-light: #f7f7f7;
-$color3-light: #eeeeee;
-
-$sidebar: 330px;
+$sidebar-width: 330px;
 
 *,
 *::before,
@@ -24,7 +17,7 @@ body,
 		"Droid Sans", "Helvetica Neue", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	background: $color1;
+	background: $bg-color-1;
 	color: #fff;
 	font-size: 0.8em;
 }
@@ -42,8 +35,8 @@ body,
 }
 
 #sidebar {
-	background: $color3;
-	width: $sidebar;
+	background: $bg-color-2;
+	width: $sidebar-width;
 	height: 100vh;
 	padding: 10px;
 	overflow: hidden;
@@ -57,7 +50,7 @@ body,
 }
 
 #workingArea {
-	width: calc(100% - $sidebar);
+	width: calc(100% - $sidebar-width);
 	height: 100vh;
 	padding: 20px;
 	overflow: hidden;
