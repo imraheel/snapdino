@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
-
+import Radio from '@mui/material/Radio';
 
 import { updateSetting } from '../../redux/settingsSlice';
 
@@ -187,6 +187,67 @@ const ResizeCrop = () => {
 						}} />} label="Auto detect focal point" />
 					</FormControl>
 				</Grid>
+
+				{!settings.autoFocalPoint ? (
+					<Grid marginBottom={1}>
+						<div id="focal-points">
+							<Radio checked={settings.manualFocalPoint === '0'} 
+								value="0" name="focal-point-radio" 
+								onChange={(e) => {
+									dispatch(updateSetting({ manualFocalPoint: '0' }))
+								}} 
+								inputProps={{ 'aria-label': '0' }} />
+							<Radio checked={settings.manualFocalPoint === '1'} 
+								value="1" name="focal-point-radio" 
+								onChange={(e) => {
+									dispatch(updateSetting({ manualFocalPoint: '1' }))
+								}} 
+								inputProps={{ 'aria-label': '1' }} />
+							<Radio checked={settings.manualFocalPoint === '2'} 
+								value="2" name="focal-point-radio" 
+								onChange={(e) => {
+									dispatch(updateSetting({ manualFocalPoint: '2' }))
+								}} 
+								inputProps={{ 'aria-label': '2' }} />
+							<Radio checked={settings.manualFocalPoint === '3'} 
+								value="3" name="focal-point-radio" 
+								onChange={(e) => {
+									dispatch(updateSetting({ manualFocalPoint: '3' }))
+								}} 
+								inputProps={{ 'aria-label': '3' }} />
+							<Radio checked={settings.manualFocalPoint === '4'} 
+								value="4" name="focal-point-radio" 
+								onChange={(e) => {
+									dispatch(updateSetting({ manualFocalPoint: '4' }))
+								}} 
+								inputProps={{ 'aria-label': '4' }} />
+							<Radio checked={settings.manualFocalPoint === '5'} 
+								value="5" name="focal-point-radio" 
+								onChange={(e) => {
+									dispatch(updateSetting({ manualFocalPoint: '5' }))
+								}} 
+								inputProps={{ 'aria-label': '5' }} />
+							<Radio checked={settings.manualFocalPoint === '6'} 
+								value="6" name="focal-point-radio" 
+								onChange={(e) => {
+									dispatch(updateSetting({ manualFocalPoint: '6' }))
+								}} 
+								inputProps={{ 'aria-label': '6' }} />
+							<Radio checked={settings.manualFocalPoint === '7'} 
+								value="7" name="focal-point-radio" 
+								onChange={(e) => {
+									dispatch(updateSetting({ manualFocalPoint: '7' }))
+								}} 
+								inputProps={{ 'aria-label': '7' }} />
+							<Radio checked={settings.manualFocalPoint === '8'} 
+								value="8" name="focal-point-radio" 
+								onChange={(e) => {
+									dispatch(updateSetting({ manualFocalPoint: '8' }))
+								}} 
+								inputProps={{ 'aria-label': '8' }} />
+						</div>
+					</Grid>
+				) : null}
 				</>
 			) : null}
 

@@ -11,6 +11,7 @@ const initialState = {
 	height: 600,
 	aspectRatio: '1:1',
 	autoFocalPoint: true,
+	manualFocalPoint: '4',
 
 
 	borderWidth: 0,

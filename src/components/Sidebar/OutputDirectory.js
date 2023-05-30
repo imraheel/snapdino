@@ -15,7 +15,9 @@ const OutputDirectory = () => {
 	const settings = useSelector((state) => state.settings)
 	
 	useEffect(() => {
-		
+		/**
+		 * Subscribes to the onOutputDirectory event and updates the output directory setting when it is changed.
+		 */
 		window.electronAPI.onOutputDirectory((event, directory) => {
 			if (directory) {
 				dispatch(updateSetting({

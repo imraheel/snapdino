@@ -93,6 +93,15 @@ const ImagePreview = ({ fileObj, viewColumns = 3, windowSize }) => {
 	}
 
 	const initCropper = async () => {
+		if (!settings.autoFocalPoint) {
+			let focalPoint = parseInt(settings.manualFocalPoint)
+			setCropData({
+				x: (focalPoint % 3) * 0.5,
+				y: Math.floor(focalPoint / 3) * 0.5,
+			})
+			return;
+		}
+
 		const result = await smartcrop.crop(imageData.image, {
 			width: settings.width, 
 			height: settings.height,
@@ -162,10 +171,8 @@ const ImagePreview = ({ fileObj, viewColumns = 3, windowSize }) => {
 
 		const tw = settings.width;
 		const th = settings.height;
-		const fx = customFocal ? customFx : (cropData.x / cropData.width);
-		const fy = customFocal ? customFy : (cropData.y / cropData.height);
-		// const fx = 0.5;
-		// const fy = 0.5;
+		const fx = customFocal ? customFx : (settings.autoFocalPoint ? (cropData.x / cropData.width) : (cropData.x));
+		const fy = customFocal ? customFy : (settings.autoFocalPoint ? (cropData.y / cropData.height) : (cropData.y));
 		const w = imageData.image.offsetWidth;
 		const h = imageData.image.offsetHeight;
 		let nw = w;
@@ -175,10 +182,6 @@ const ImagePreview = ({ fileObj, viewColumns = 3, windowSize }) => {
 			nw = tw * Math.min(w / tw, h / th);
 			nh = th * Math.min(w / tw, h / th);
 		}
-
-		// console.log('fillRect', 0, 0, w, h);
-		// console.log('clearRect', (w - nw) * fx, (h - nh) * fy, nw, nh);
-		// console.log({ tw, th, fx, fy, w, h, nw, nh })
 		
 		const ctx = maskRef.current.getContext("2d");
 		ctx.fillStyle = ctx.createPattern(maskPattern, "repeat");

@@ -47,6 +47,16 @@ body,
 		margin: 0 auto;
 		display: block;
 	}
+
+	#focal-points {
+		display: flex;
+		max-width: 50%;
+		flex-wrap: wrap;
+		flex-direction: row;
+		margin: 0 auto;
+		justify-content: space-between;
+		align-items: center;
+	}
 }
 
 #workingArea {
