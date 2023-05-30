@@ -9,10 +9,6 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-
-import { saveAs } from 'file-saver';
 
 import { updateSetting, resetSettings } from '../../redux/settingsSlice';
 import { removeAllFiles } from '../../redux/filesSlice';
@@ -21,6 +17,8 @@ import logo from '../../assets/images/logo-light.svg'
 
 import ResizeCrop from './ResizeCrop'
 import OutputDirectory from './OutputDirectory'
+import OutputFormat from './OutputFormat';
+import OutputFileName from './OutputFileName';
 
 const Sidebar = ({ startProcessing, isProcessing }) => {
 	const dispatch = useDispatch()
@@ -52,7 +50,15 @@ const Sidebar = ({ startProcessing, isProcessing }) => {
 					<Typography>Image format & Quality</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					
+					<OutputFormat />
+				</AccordionDetails>
+			</Accordion>
+			<Accordion>
+				<AccordionSummary expandIcon={<ExpandMoreIcon />} >
+					<Typography>Output File Name</Typography>
+				</AccordionSummary>
+				<AccordionDetails>
+					<OutputFileName />
 				</AccordionDetails>
 			</Accordion>
 			<Accordion>

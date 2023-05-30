@@ -120,29 +120,14 @@ function App() {
 				con.fillRect(0, 0, tw, th);
 			}
 
-			/*******************************************
-			 * Border
-			 ******************************************/
-			let hw = 0;
-			if (settings.borderWidth > 0) {
-				con.lineWidth = settings.borderWidth;
-				con.strokeStyle = settings.borderColor;
-				hw = settings.borderWidth / 2;
-				con.strokeRect(hw, hw, tw - hw * 2, th - hw * 2);
-			}
 
 			/*******************************************
-			 * Image after the border
+			 * Draw Image on canvas
 			 ******************************************/
-			con.drawImage(img, (iw - srcw) * fx, (ih - srch) * fy, srcw, srch, hw, hw, tw - hw * 2, th - hw * 2);
+			con.drawImage(img, (iw - srcw) * fx, (ih - srch) * fy, srcw, srch, 0, 0, tw, th);
 			
 
-			let quality = 1;
-			if (output.format == "image/jpeg") {
-				quality = settings.outputQuality / 100;
-			} else if (output.format == "image/webp") {
-				quality = settings.outputQuality / 100;
-			}
+			const quality = settings.outputQuality / 100;
 
 			const filename = Math.random().toString(36).substring(2, 15) + "." + output.ext;
 			
@@ -164,6 +149,9 @@ function App() {
 		}
 		if (settings.outputFormat == "webp") {
 			return { ext: "webp", format: "image/webp" };
+		}
+		if (settings.outputFormat == "png") {
+			return { ext: "png", format: "image/png" };
 		}
 
 		const dot_index = file.name.lastIndexOf(".");

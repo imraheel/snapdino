@@ -14,11 +14,10 @@ const initialState = {
 	manualFocalPoint: '4',
 
 
-	borderWidth: 0,
-	borderColor: '#000',
 
+	outputFileName: 'unique',
 
-	outputFormat: 'jpeg',
+	outputFormat: 'original',
 	outputQuality: 80,
 	outputDirectory: null,
 }
