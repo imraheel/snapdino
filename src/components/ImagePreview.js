@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
+import smartcrop from 'smartcrop';
 import loadImage from 'blueimp-load-image';
-import { Grid, Paper, Skeleton, Typography } from '@mui/material';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { red } from '@mui/material/colors';
-import smartcrop from 'smartcrop';
 
 import pattern from '../assets/images/pattern.svg'
 import { removeFile, updateFile } from '../redux/filesSlice';
@@ -244,7 +245,7 @@ const ImagePreview = ({ fileObj, viewColumns = 3, windowSize }) => {
 		<Paper elevation={3} sx={{ p: 1, mb: 1, }}>
 			{imageData === null ? (
 				<>
-					<Skeleton variant="rectangular" animation="wave" width='100%' height={100} />
+					<Typography>Loading...</Typography>
 				</>
 			) : null}
 

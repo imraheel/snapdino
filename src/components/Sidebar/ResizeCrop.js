@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Grid from '@mui/material/Grid';
@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import Switch from '@mui/material/Switch';
 import Radio from '@mui/material/Radio';
 
@@ -19,7 +19,7 @@ import { updateSetting } from '../../redux/settingsSlice';
 const ResizeCrop = () => {
 	const dispatch = useDispatch()
 	const settings = useSelector((state) => state.settings)
-	const files = useSelector((state) => state.files)
+	
 	const [availableAspectRatios, setAvailableAspectRatios] = useState([
 		"1:1",
 		"4:3",

@@ -115,7 +115,7 @@ function App() {
 
 			let output = outputFormat(fileObj.file);
 			// Draw a white background for transparent images
-			if (output.format == "image/jpeg" && fileObj.file.type !== 'image/jpeg') {
+			if (output.format === "image/jpeg" && fileObj.file.type !== 'image/jpeg') {
 				con.fillStyle = "white";
 				con.fillRect(0, 0, tw, th);
 			}
@@ -144,13 +144,13 @@ function App() {
 	}
 
 	const outputFormat = (file) => {
-		if (settings.outputFormat == "jpeg") {
+		if (settings.outputFormat === "jpeg") {
 			return { ext: "jpg", format: "image/jpeg" };
 		}
-		if (settings.outputFormat == "webp") {
+		if (settings.outputFormat === "webp") {
 			return { ext: "webp", format: "image/webp" };
 		}
-		if (settings.outputFormat == "png") {
+		if (settings.outputFormat === "png") {
 			return { ext: "png", format: "image/png" };
 		}
 
@@ -165,6 +165,8 @@ function App() {
 				return { ext: extension, format: "image/jpeg" };
 			case "webp":
 				return { ext: "webp", format: "image/webp" };
+			default:
+				return { ext: "jpg", format: "image/jpeg" };
 		}
 	}
 
