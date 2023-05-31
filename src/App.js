@@ -129,7 +129,7 @@ function App() {
 
 			const quality = settings.outputQuality / 100;
 
-			const filename = Math.random().toString(36).substring(2, 15) + "." + output.ext;
+			const filename = getFileName(fileObj, tw, th);
 			
 			canvas.toBlob(
 				async blob => {
@@ -167,6 +167,49 @@ function App() {
 				return { ext: "webp", format: "image/webp" };
 		}
 	}
+
+	const getFileName = (fileObj, outputWidth, outputHeight) => {
+		const dot_index = fileObj.file.name.lastIndexOf(".");
+		const extension = fileObj.file.name.substr(dot_index + 1);
+
+		if (settings.outputFileName === 'pattern') {
+			
+			let fileName = settings.outputFileNamePattern;
+
+			// Checks if the fileName pattern contains the placeholder [uuid].
+			// If present, replaces the [uuid] placeholder with the unique v4 uuid
+			if (fileName.indexOf('[uuid]') !== -1) {
+				fileName = fileName.replace('[uuid]', fileObj.id)
+			}
+
+			// Checks if the fileName pattern contains the placeholder [numb].
+			// If present, replaces the [numb] placeholder with a random number
+			if (fileName.indexOf('[numb]') !== -1) {
+				fileName = fileName.replace('[numb]', Math.random().toString().slice(2,12))
+			}
+
+			// Checks if the fileName pattern contains the placeholder [size].
+			// If present, replaces the [size] placeholder with the outputWidth and outputHeight 
+			if (fileName.indexOf('[size]') !== -1) {
+				fileName = fileName.replace('[size]', `${outputWidth}x${outputHeight}`)
+			}
+
+			// Checks if the fileName pattern contains the placeholder [auto].
+			// If present, replaces the [auto] placeholder with the number of remaining files in the files array
+			if (fileName.indexOf('[auto]') !== -1) {
+				fileName = fileName.replace('[auto]', files.length)
+			}
+
+			return `${fileName}.${extension}`
+		}
+		else if (settings.outputFileName === 'original') {
+			return fileObj.file.name
+		}
+		else {
+			return `${fileObj.id}.${extension}`
+		}
+	}
+	
 
 	return (
 		<>

@@ -16,6 +16,7 @@ const initialState = {
 
 
 	outputFileName: 'unique',
+	outputFileNamePattern: 'output-[auto]',
 
 	outputFormat: 'original',
 	outputQuality: 80,
