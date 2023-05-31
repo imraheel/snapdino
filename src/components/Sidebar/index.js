@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Grid from '@mui/material/Grid';
 
-import { updateSetting, resetSettings } from '../../redux/settingsSlice';
+import { resetSettings } from '../../redux/settingsSlice';
 import { removeAllFiles } from '../../redux/filesSlice';
 
 import logo from '../../assets/images/logo-light.svg'
@@ -24,14 +24,6 @@ const Sidebar = ({ startProcessing, isProcessing }) => {
 	const dispatch = useDispatch()
 	const settings = useSelector((state) => state.settings)
 	const files = useSelector((state) => state.files)
-
-	useEffect(() => {
-
-
-		return () => {
-
-		}
-	}, [])
 
 	return (
 		<div id='sidebar'>

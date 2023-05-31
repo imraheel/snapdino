@@ -28,6 +28,9 @@ const OutputDirectory = () => {
 
 	}, [])
 
+	/**
+	 * Invoke electron api to request to select output directory dialog
+	 */
 	const openDirectoryDialog = () => {
 		window.electronAPI.getOutputDirectory()
 	}

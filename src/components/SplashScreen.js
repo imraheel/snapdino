@@ -13,8 +13,14 @@ const SplashScreen = ({setAppLoading}) => {
 
 	useEffect(() => {
 
+		/**
+		 * Invoke electron api to get default output directory
+		 */
 		window.electronAPI.getDefaultDownloadDirectory()
 		
+		/**
+		 * Subscribes to the onDefaultDownloadDirectory event and updates the default output directory.
+		 */
 		window.electronAPI.onDefaultDownloadDirectory((event, directory) => {
 			if (directory) {
 				dispatch(updateSetting({
