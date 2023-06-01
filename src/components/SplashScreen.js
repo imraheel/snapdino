@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 import { CircularProgress } from '@mui/material';
 
 import logo from '../assets/images/logo-light.svg'
-import { updateSetting } from '../redux/settingsSlice';
 import { updateOutputSetting } from '../redux/outputSettingsSlice';
 
 
 const SplashScreen = ({setAppLoading}) => {
 	const dispatch = useDispatch()
-	const settings = useSelector((state) => state.settings)
 
 	useEffect(() => {
 

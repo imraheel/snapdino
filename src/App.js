@@ -51,21 +51,27 @@ function App() {
 	const [isProcessing, setIsProcessing] = useState(false)
 
 	useEffect(() => {
-		console.log('App initialized')
-
+		// Subscribes to the fileSaved event and remove file from files array once its saved.
 		window.electronAPI.fileSaved((event, id, fileName) => {
-			console.log('fileSaved: ', id, fileName)
 			dispatch(removeFile(id))
 		})
-
 	}, [])
 
 	useEffect(() => {
+		/**
+		 * If files array changed and isProcessing is true, then save the next files 
+		 * - it should updated when file is saved and removed from files array
+		 */
 		if (isProcessing) {
 			saveNextFile()
 		}
 	}, [files])
 
+	/**
+	 * Initiates the processing of files.
+	 * - Sets the processing flag to true.
+	 * - Starts saving the next file.
+	 */
 	const startProcessing = async () => {
 		if (files.length === 0) return
 
@@ -73,6 +79,11 @@ function App() {
 		saveNextFile()
 	}
 
+	/**
+	 * Saves the next file in the files array.
+	 * - If there are no more files, opens the output directory and resets the processing flag.
+	 * - Otherwise, calls the saveFileToLocation method for the first file in the array.
+	 */
 	const saveNextFile = () => {
 		if (files.length === 0) {
 			window.electronAPI.openOutputDirectory(outputSettings.outputDirectory)
@@ -83,6 +94,16 @@ function App() {
 		saveFileToLocation(files[0])
 	}
 
+	/**
+	 * Saves the file to the specified location.
+	 * - Creates a canvas element and sets its dimensions.
+	 * - Calculates the target width and height based on the settings and original image dimensions.
+	 * - Draws the image on the canvas, applying cropping if enabled.
+	 * - Converts the canvas content to a blob with the specified format and quality.
+	 * - Calls the saveFile method from the electronAPI to save the file to the output directory.
+	 * @param {Object} fileObj - The file object to be saved.
+	 * @returns {Promise} - A promise that resolves when the file is saved.
+	 */
 	const saveFileToLocation = (fileObj) => {
 		return new Promise((resolve, reject) => {
 			let img = fileObj.image;
@@ -96,6 +117,7 @@ function App() {
 			const iw = fileObj.originalWidth;
 			const ih = fileObj.originalHeight;
 
+			// Adjust target dimensions based on settings
 			if (settings.disableCrop) {
 				tw = fileObj.originalWidth;
 				th = fileObj.originalHeight;
@@ -115,28 +137,44 @@ function App() {
 			let srch = th * scale;
 
 			let output = outputFormat(fileObj, tw, th);
-			console.log({output})
-			// Draw a white background for transparent images
+			
+			// Draw a white background for transparent images when saving as JPEG
 			if (output.format === "image/jpeg" && fileObj.file.type !== 'image/jpeg') {
 				con.fillStyle = "white";
 				con.fillRect(0, 0, tw, th);
 			}
 
 
-			/*******************************************
-			 * Draw Image on canvas
-			 ******************************************/
-			con.drawImage(img, (iw - srcw) * fx, (ih - srch) * fy, srcw, srch, 0, 0, tw, th);
+			// Draw the image on the canvas with cropping
+			con.drawImage(
+				img, 
+				(iw - srcw) * fx, 
+				(ih - srch) * fy, 
+				srcw, 
+				srch, 
+				0, 
+				0, 
+				tw, 
+				th
+			);
 			
 
 			const quality = outputSettings.outputQuality / 100;
 
 			const fileName = `${output.fileName}.${output.ext}`;
 			
+			// Convert the canvas content to a blob and save the file
 			canvas.toBlob(
 				async blob => {
 					const arrayBuffer = await blob.arrayBuffer();
-					window.electronAPI.saveFile(arrayBuffer, fileObj.id, fileName, outputSettings.outputDirectory)
+
+					window.electronAPI.saveFile(
+						arrayBuffer, 
+						fileObj.id, 
+						fileName, 
+						outputSettings.outputDirectory
+					)
+
 					resolve()
 				},
 				output.format,
@@ -145,6 +183,16 @@ function App() {
 		})
 	}
 
+	/**
+	 * Determines the output format and file name for the given file object.
+	 * - Extracts the file extension from the original file name.
+	 * - Generates the output file name based on the specified pattern or original file name.
+	 * - Sets the output format and returns the output object.
+	 * @param {Object} fileObj - The file object for which the output format is determined.
+	 * @param {number} outputWidth - The target output width.
+	 * @param {number} outputHeight - The target output height.
+	 * @returns {Object} - The output object containing the format, extension, and file name.
+	 */
 	const outputFormat = (fileObj, outputWidth, outputHeight) => {
 		const dot_index = fileObj.file.name.lastIndexOf(".");
 		const extension = fileObj.file.name.substr(dot_index + 1);
@@ -183,7 +231,7 @@ function App() {
 		}
 
 
-		// create output object
+		// Determine the output format based on the specified settings or file extension
 		if (outputSettings.outputFormat === "jpeg") {
 			return { ext: "jpg", format: "image/jpeg", fileName };
 		}
@@ -194,7 +242,7 @@ function App() {
 			return { ext: "png", format: "image/png", fileName };
 		}
 
-		// Preserve format
+		// Preserve the original format if recognized, default to JPEG
 		switch (extension.toLowerCase()) {
 			case "png":
 				return { ext: "png", format: "image/png", fileName };

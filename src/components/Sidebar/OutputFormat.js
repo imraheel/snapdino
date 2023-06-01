@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Box from '@mui/material/Box';
@@ -9,7 +9,6 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Slider from '@mui/material/Slider';
 
-import { updateSetting } from '../../redux/settingsSlice';
 import { updateOutputSetting } from '../../redux/outputSettingsSlice';
 
 const marks = [

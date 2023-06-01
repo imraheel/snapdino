@@ -28,7 +28,7 @@ const Sidebar = ({ startProcessing, isProcessing }) => {
 
 	return (
 		<div id='sidebar'>
-			<img src={logo} className='logo' height={60} />
+			<img src={logo} className='logo' height={60} alt='SnapDino Logo' />
 
 			<Accordion defaultExpanded>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />} >

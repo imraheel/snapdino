@@ -30,7 +30,7 @@ const ImagePreview = ({ fileObj, viewColumns = 3, windowSize }) => {
 	const [cropData, setCropData] = useState(null)
 
 	
-
+	// load image on component mount
 	useEffect(() => {
 		handleImageLoad();
 	}, [])
@@ -42,11 +42,13 @@ const ImagePreview = ({ fileObj, viewColumns = 3, windowSize }) => {
 				maskRef.current.width = imageData.image.offsetWidth;
 				maskRef.current.height = imageData.image.offsetHeight;
 
+				// subscribe mouse event listeners
 				maskRef.current.addEventListener('mousedown', onMouseDown);
 				maskRef.current.addEventListener('mouseup', onMouseUp);
 				maskRef.current.addEventListener('mousemove', onMouseMove);
 			}
 
+			// Initializes the image cropper
 			initCropper();
 
 			dispatch(updateFile({
@@ -58,6 +60,7 @@ const ImagePreview = ({ fileObj, viewColumns = 3, windowSize }) => {
 		}
 	
 		return () => {
+			// unsubscribe mouse event listeners
 			if (maskRef && maskRef.current) {
 				maskRef.current.removeEventListener('mousedown', onMouseDown);
 				maskRef.current.removeEventListener('mouseup', onMouseUp);
@@ -67,35 +70,54 @@ const ImagePreview = ({ fileObj, viewColumns = 3, windowSize }) => {
 	}, [imageData, settings, viewColumns, windowSize])
 
 	useEffect(() => {
+		// Draws the mask when crop settings available
 		if (cropData) {
 			drawMask()
 		}
 	}, [cropData])
 
-
+	/**
+	 * Handles the image load event and performs necessary actions.
+	 * - Loads the image using the provided file object.
+	 * - Updates the image container in the DOM with the loaded image.
+	 * - Adjusts the size of the mask element based on the loaded image.
+	 * - Sets the image data state with the loaded image data.
+	 */
 	const handleImageLoad = async () => {
 		const data = await loadImage(fileObj.file, {
 			meta: false,
 			canvas: false,
 		})
-		console.log('imageData', data)
 
+		// Clear existing content in the image container
 		if (imageContainerRef.current) {
 			imageContainerRef.current.innerHTML = '';
+			// Append the loaded image to the image container
 			imageContainerRef.current.appendChild(data.image);
 		}
 
+		// Adjust the size of the mask element
 		if (maskRef) {
 			maskRef.current.width = data.image.offsetWidth;
 			maskRef.current.height = data.image.offsetHeight;
 		}
 
+		// Set the image data state
 		setImageData(data);
 	}
 
+	/**
+	 * Initializes the cropper based on the settings and image data.
+	 * - If manual focal point is enabled, sets the crop data based on the manual focal point.
+	 * - If auto focal point is enabled, performs smart cropping using the image data and settings.
+	 * - Updates the crop data state with the calculated crop coordinates.
+	 */
 	const initCropper = async () => {
 		if (!settings.autoFocalPoint) {
+			// Manual focal point is enabled
 			let focalPoint = parseInt(settings.manualFocalPoint)
+
+			// Calculate crop coordinates based on the manual focal point
 			setCropData({
 				x: (focalPoint % 3) * 0.5,
 				y: Math.floor(focalPoint / 3) * 0.5,
@@ -103,23 +125,29 @@ const ImagePreview = ({ fileObj, viewColumns = 3, windowSize }) => {
 			return;
 		}
 
+		// Auto focal point is enabled
 		const result = await smartcrop.crop(imageData.image, {
 			width: settings.width, 
 			height: settings.height,
 			ruleOfThirds: true,
 			debug: settings.debugMode,
 		});
-
-		// console.log('smartcrop', result)
 		
+		// If debug output is available, draw debug information
 		if (result.debugOutput) {
 			debugDraw(result, true)
 		}
 
+		// Set the crop data state with the calculated crop coordinates
 		setCropData({...result.topCrop})
 	}
 
-	
+	/**
+	 * Draws debug information on the canvas.
+	 * @param {Object} result - The result object containing debug information.
+	 * @param {boolean} showCrop - Determines whether to show the crop rectangle.
+	 * @returns {HTMLCanvasElement} - The canvas element with the drawn debug information.
+	 */
 	const debugDraw = (result, showCrop) => {
 		let topCrop = result.debugTopCrop;
 		let options = result.debugOptions;
@@ -168,6 +196,15 @@ const ImagePreview = ({ fileObj, viewColumns = 3, windowSize }) => {
 		return canvas;
 	}
 
+	/**
+	 * Draws the mask based on the crop settings and image data.
+	 * - Calculates the dimensions and focal points based on the settings.
+	 * - Draws the mask with a pattern and clears the cropped area.
+	 * - Updates the focal points and dispatches the file update action if not in custom focal mode.
+	 * @param {boolean} customFocal - Determines if the custom focal point is used.
+	 * @param {number} customFx - The custom focal x-coordinate.
+	 * @param {number} customFy - The custom focal y-coordinate.
+	 */
 	const drawMask = (customFocal = false, customFx = 0, customFy = 0) => {
 
 		const tw = settings.width;
@@ -201,6 +238,12 @@ const ImagePreview = ({ fileObj, viewColumns = 3, windowSize }) => {
 		}
 	}
 
+	/**
+	 * Handles the mouse down event on the image.
+	 * - Sets the flag to indicate the mouse is down.
+	 * - Stores the initial mouse position.
+	 * @param {Event} event - The mouse down event.
+	 */
 	const onMouseDown = (event) => {
 		if (settings.autoWidth || settings.autoHeight) return;
 
@@ -208,6 +251,13 @@ const ImagePreview = ({ fileObj, viewColumns = 3, windowSize }) => {
 		mouseDownX = event.clientX;
 		mouseDownY = event.clientY;
 	}
+
+	/**
+	 * Handles the mouse up event on the image.
+	 * - Sets the flag to indicate the mouse is up.
+	 * - Calculates the new focal point based on the mouse movement and updates it.
+	 * @param {Event} event - The mouse up event.
+	 */
 	const onMouseUp = (event) => {
 		isMouseDown = false;
 
@@ -226,6 +276,12 @@ const ImagePreview = ({ fileObj, viewColumns = 3, windowSize }) => {
 			focalY: newFy,
 		}))
 	}
+
+	/**
+	 * Handles the mouse move event on the image.
+	 * - If the mouse is down, calculates the new focal point based on the mouse movement and updates it.
+	 * @param {Event} event - The mouse move event.
+	 */
 	const onMouseMove = (event) => {
 		if (isMouseDown) {
 
@@ -235,7 +291,7 @@ const ImagePreview = ({ fileObj, viewColumns = 3, windowSize }) => {
 			newFx = Math.max(0, Math.min(1, newFx));
 			newFy = Math.max(0, Math.min(1, newFy));
 
-			if (newFx != lastFocalX || newFy != lastFocalY) {
+			if (newFx !== lastFocalX || newFy !== lastFocalY) {
 				drawMask(true, newFx, newFy)
 			}
 		}
