@@ -34,17 +34,23 @@ class IpcEvents {
 	 */
 	writeFileToLocation = (event, arrayBuffer, id, fileName, outputPath = null) => {
 		const webContents = event.sender
-		const buffer = Buffer.from(arrayBuffer)
-
-		const fileSavePath = path.join(((outputPath) ? outputPath : app.getPath('downloads')), fileName)
-
-		fs.writeFile(fileSavePath, buffer, (error) => {
-			if (error) {
-				console.log(error)
-			} else {
-				webContents.send('file-saved', id, fileName)
-			}
-		});
+		try {
+			const buffer = Buffer.from(arrayBuffer)
+	
+			const fileSavePath = path.join(((outputPath) ? outputPath : app.getPath('downloads')), fileName)
+	
+			fs.writeFile(fileSavePath, buffer, (error) => {
+				if (error) {
+					console.log(error)
+					webContents.send('file-saved-error', error, id, fileName)
+				} else {
+					webContents.send('file-saved', id, fileName)
+				}
+			});
+		} catch (error) {
+			console.log(error)
+			webContents.send('file-saved-error', error, id, fileName)
+		}
 	}
 
 

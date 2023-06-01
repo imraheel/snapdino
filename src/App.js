@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 import './assets/scss/App.scss';
 
@@ -13,7 +15,9 @@ import SplashScreen from './components/SplashScreen';
 
 import { removeFile } from './redux/filesSlice';
 
-
+const Alert = React.forwardRef(function Alert(props, ref) {
+	return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const darkTheme = createTheme({
 	palette: {
@@ -49,11 +53,18 @@ function App() {
 	const files = useSelector((state) => state.files)
 	const [appLoading, setAppLoading] = useState(true)
 	const [isProcessing, setIsProcessing] = useState(false)
+	const [processingError, setProcessingError] = useState(null)
 
 	useEffect(() => {
 		// Subscribes to the fileSaved event and remove file from files array once its saved.
 		window.electronAPI.fileSaved((event, id, fileName) => {
 			dispatch(removeFile(id))
+		})
+		
+		// Subscribes to the fileSavedError event and stop processing on error.
+		window.electronAPI.fileSavedError((event, error, id, fileName) => {
+			setProcessingError(`ERROR: Something went wrong!`)
+			setIsProcessing(false);
 		})
 	}, [])
 
@@ -262,6 +273,15 @@ function App() {
 			<div id='appContainer'>
 				<Sidebar startProcessing={startProcessing} isProcessing={isProcessing} />
 				<WorkingArea isProcessing={isProcessing} />
+
+				<Snackbar 
+					open={processingError !== null} 
+					anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+					autoHideDuration={6000} 
+					onClose={() => setProcessingError(null)}
+				>
+					<Alert onClose={() => setProcessingError(null)} severity="error">{processingError}</Alert>
+				</Snackbar>
 			</div>
 			)}
 		</ThemeProvider>

@@ -4,7 +4,6 @@ All notable changes to SnapDino will be documented in this file.
 ## [Unreleased]
 - ___Add your upcoming changes and features here.___
 - Cancel processing
-- Stop processing on file save error
 
 ## [1.0.0]
 - Initial release of SnapDino.

@@ -24,6 +24,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
 	fileSaved: (callback) => ipcRenderer.on('file-saved', callback),
 
 	/**
+	 * Registers a callback function to be called when error occurred on file saved.
+	 * @param {Function} callback - The callback function to be executed when error occurred.
+	 */
+	fileSavedError: (callback) => ipcRenderer.on('file-saved-error', callback),
+
+	/**
 	 * Sends a request to retrieve the default download directory.
 	 */
 	getDefaultDownloadDirectory: () => ipcRenderer.send('get-default-download-directory'),
