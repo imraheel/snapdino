@@ -1,12 +1,113 @@
 
 const path = require('path');
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const IpcEvents = require('./events');
+
+const isMac = process.platform === 'darwin'
 
 const isDev = require('electron-is-dev');
 
 process.env['NODE_' + 'ENV'] = process.env.NODE_ENV
 
+
+const template = [
+	...(isMac
+		? [{
+			label: app.name,
+			submenu: [
+				{ role: 'about' },
+				{ type: 'separator' },
+				{ role: 'services' },
+				{ type: 'separator' },
+				{ role: 'hide' },
+				{ role: 'hideOthers' },
+				{ role: 'unhide' },
+				{ type: 'separator' },
+				{ role: 'quit' }
+			]
+		}]
+		: []),
+	
+	{
+		label: 'File',
+		submenu: [
+			isMac ? { role: 'close' } : { role: 'quit' }
+		]
+	},
+	
+	{
+		label: 'View',
+		submenu: [
+			{ role: 'reload' },
+			{ role: 'forceReload' },
+			{ role: 'toggleDevTools' },
+			{ type: 'separator' },
+			{ role: 'resetZoom' },
+			{ role: 'zoomIn' },
+			{ role: 'zoomOut' },
+			{ type: 'separator' },
+			{ role: 'togglefullscreen' }
+		]
+	},
+	
+	{
+		label: 'Window',
+		submenu: [
+			{ role: 'minimize' },
+			{ role: 'zoom' },
+			...(isMac
+				? [
+					{ type: 'separator' },
+					{ role: 'front' },
+					{ type: 'separator' },
+					{ role: 'window' }
+				]
+				: [
+					{ role: 'close' }
+				])
+		]
+	},
+
+	{
+		role: 'help',
+		submenu: [
+			{
+				label: 'Learn More',
+				click: async () => {
+					const { shell } = require('electron')
+					await shell.openExternal('https://github.com/imraheel/snapdino')
+				}
+			},
+			{
+				label: 'About',
+				click: async () => {
+					let aboutWindow = new BrowserWindow({
+						width: 300,
+						height: 300,
+						resizable: false,
+						maximizable: false,
+						minimizable: false,
+						fullscreenable: false,
+						center: true,
+						alwaysOnTop: true,
+						darkTheme: true,
+						backgroundColor: '#252931',
+						icon: path.join(__dirname, '../', 'logo.png'),
+					});
+
+					aboutWindow.loadURL(`file://${path.join(__dirname, '../', `build/about.html?v=${app.getVersion()}`)}`);
+
+					aboutWindow.on("closed", function() {
+						aboutWindow = null;
+					});
+				}
+			}
+		]
+	}
+]
+
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
 
 function createWindow() {
 	/** 
