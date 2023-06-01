@@ -1,6 +1,6 @@
 
 const path = require('path');
-const { app, BrowserWindow, session, systemPreferences, ipcMain } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const IpcEvents = require('./events');
 
 const isDev = require('electron-is-dev');
@@ -18,7 +18,7 @@ function createWindow() {
 		minWidth: 1080,
 		minHeight: 600,
 		resizable: true,
-		// icon: true,
+		icon: path.join(__dirname, '../', 'logo.png'),
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.js'),
 			nodeIntegration: true,
@@ -37,7 +37,7 @@ function createWindow() {
 	win.loadURL(
 		isDev
 			? 'http://localhost:4100'
-			: `file://${path.join(__dirname, 'build/index.html')}`
+			: `file://${path.join(__dirname, '../', 'build/index.html')}`
 	);
 	// Open the DevTools.
 	if (isDev) {
