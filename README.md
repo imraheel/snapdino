@@ -13,7 +13,7 @@ SnapDino is an open-source application built with Electron that allows users to 
 
 To install and use SnapDino, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/SnapDino.git`
+1. Clone the repository: `git clone https://github.com/imraheel/snapdino.git`
 2. Install dependencies: `npm install`
 3. Start the application: `npm run dev`
 
@@ -56,8 +56,8 @@ We welcome contributions from the community! If you would like to contribute to 
 
 ## License
 
-SnapDino is released under the [MIT License](LICENSE).
+SnapDino is released under the [MIT License](LICENSE.md).
 
 ---
 
-We hope that SnapDino simplifies your image cropping and resizing tasks. If you encounter any issues or have suggestions for improvement, please feel free to [submit an issue](https://github.com/your-username/SnapDino/issues). Enjoy using SnapDino!
+We hope that SnapDino simplifies your image cropping and resizing tasks. If you encounter any issues or have suggestions for improvement, please feel free to [submit an issue](https://github.com/imraheel/snapdino/issues). Enjoy using SnapDino!
