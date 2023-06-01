@@ -46,7 +46,7 @@ Make sure to check the documentation of [electron-builder](https://www.electron.
 
 ## Special Thanks
 
-SnapDino is inspired by and utilizes some code from BIRME (Bulk Image Resizing Made Easy) web application. We would like to express our gratitude to the creators of BIRME for their innovative work and contribution to the field of image processing.
+SnapDino is inspired by BIRME (Bulk Image Resizing Made Easy) web application. We would like to express our gratitude to the creators of BIRME for their innovative work and contribution to the field of image processing.
 
 Please visit [BIRME](https://www.birme.net/) to explore their web application and learn more about their features.
 

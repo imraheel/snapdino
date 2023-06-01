@@ -42,7 +42,6 @@ class IpcEvents {
 			if (error) {
 				console.log(error)
 			} else {
-				console.log('file saved')
 				webContents.send('file-saved', id, fileName)
 			}
 		});

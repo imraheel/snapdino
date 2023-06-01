@@ -106,56 +106,54 @@ function App() {
 	 */
 	const saveFileToLocation = (fileObj) => {
 		return new Promise((resolve, reject) => {
-			let img = fileObj.image;
 
-			let tw = settings.width;
-			let th = settings.height;
+			let targetWidth = settings.width;
+			let targetHeight = settings.height;
 
 			const fx = fileObj.focalX;
 			const fy = fileObj.focalY;
 
-			const iw = fileObj.originalWidth;
-			const ih = fileObj.originalHeight;
+			const originalWidth = fileObj.originalWidth;
+			const originalHeight = fileObj.originalHeight;
 
 			// Adjust target dimensions based on settings
 			if (settings.disableCrop) {
-				tw = fileObj.originalWidth;
-				th = fileObj.originalHeight;
+				targetWidth = fileObj.originalWidth;
+				targetHeight = fileObj.originalHeight;
 			} else if (settings.autoWidth) {
-				tw = (iw * th) / ih;
+				targetWidth = (originalWidth * targetHeight) / originalHeight;
 			} else if (settings.autoHeight) {
-				th = (ih * tw) / iw;
+				targetHeight = (originalHeight * targetWidth) / originalWidth;
 			}
-			let canvas = document.createElement("canvas");
-			canvas.width = tw;
-			canvas.height = th;
-			let con = canvas.getContext("2d");
-			// con.imageSmoothingEnabled = true;
-			// con.imageSmoothingQuality = "medium";
-			let scale = Math.min(iw / tw, ih / th);
-			let srcw = tw * scale;
-			let srch = th * scale;
+			const canvas = document.createElement("canvas");
+			canvas.width = targetWidth;
+			canvas.height = targetHeight;
+			const con = canvas.getContext("2d");
+			
+			let scale = Math.min(originalWidth / targetWidth, originalHeight / targetHeight);
+			let sourceWidth = targetWidth * scale;
+			let sourceHeight = targetHeight * scale;
 
-			let output = outputFormat(fileObj, tw, th);
+			let output = outputFormat(fileObj, targetWidth, targetHeight);
 			
 			// Draw a white background for transparent images when saving as JPEG
 			if (output.format === "image/jpeg" && fileObj.file.type !== 'image/jpeg') {
 				con.fillStyle = "white";
-				con.fillRect(0, 0, tw, th);
+				con.fillRect(0, 0, targetWidth, targetHeight);
 			}
 
 
 			// Draw the image on the canvas with cropping
 			con.drawImage(
-				img, 
-				(iw - srcw) * fx, 
-				(ih - srch) * fy, 
-				srcw, 
-				srch, 
-				0, 
-				0, 
-				tw, 
-				th
+				fileObj.image, 
+				(originalWidth - sourceWidth) * fx,		// source image x
+				(originalHeight - sourceHeight) * fy,	// source image y
+				sourceWidth,							// source image width
+				sourceHeight,							// source image height
+				0,										// destination canvas x
+				0,										// destination canvas y
+				targetWidth,							// destination canvas width
+				targetHeight							// destination canvas height
 			);
 			
 
