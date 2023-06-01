@@ -114,7 +114,8 @@ function App() {
 			let srcw = tw * scale;
 			let srch = th * scale;
 
-			let output = outputFormat(fileObj.file);
+			let output = outputFormat(fileObj, tw, th);
+			console.log({output})
 			// Draw a white background for transparent images
 			if (output.format === "image/jpeg" && fileObj.file.type !== 'image/jpeg') {
 				con.fillStyle = "white";
@@ -130,12 +131,12 @@ function App() {
 
 			const quality = outputSettings.outputQuality / 100;
 
-			const filename = getFileName(fileObj, tw, th);
+			const fileName = `${output.fileName}.${output.ext}`;
 			
 			canvas.toBlob(
 				async blob => {
 					const arrayBuffer = await blob.arrayBuffer();
-					window.electronAPI.saveFile(arrayBuffer, fileObj.id, filename, outputSettings.outputDirectory)
+					window.electronAPI.saveFile(arrayBuffer, fileObj.id, fileName, outputSettings.outputDirectory)
 					resolve()
 				},
 				output.format,
@@ -144,40 +145,13 @@ function App() {
 		})
 	}
 
-	const outputFormat = (file) => {
-		if (outputSettings.outputFormat === "jpeg") {
-			return { ext: "jpg", format: "image/jpeg" };
-		}
-		if (outputSettings.outputFormat === "webp") {
-			return { ext: "webp", format: "image/webp" };
-		}
-		if (outputSettings.outputFormat === "png") {
-			return { ext: "png", format: "image/png" };
-		}
-
-		const dot_index = file.name.lastIndexOf(".");
-		const extension = file.name.substr(dot_index + 1);
-		// Preserve format
-		switch (extension.toLowerCase()) {
-			case "png":
-				return { ext: "png", format: "image/png" };
-			case "jpg":
-			case "jpeg":
-				return { ext: extension, format: "image/jpeg" };
-			case "webp":
-				return { ext: "webp", format: "image/webp" };
-			default:
-				return { ext: "jpg", format: "image/jpeg" };
-		}
-	}
-
-	const getFileName = (fileObj, outputWidth, outputHeight) => {
+	const outputFormat = (fileObj, outputWidth, outputHeight) => {
 		const dot_index = fileObj.file.name.lastIndexOf(".");
 		const extension = fileObj.file.name.substr(dot_index + 1);
+		let fileName = fileObj.id;
 
 		if (outputSettings.outputFileName === 'pattern') {
-			
-			let fileName = outputSettings.outputFileNamePattern;
+			fileName = outputSettings.outputFileNamePattern;
 
 			// Checks if the fileName pattern contains the placeholder [uuid].
 			// If present, replaces the [uuid] placeholder with the unique v4 uuid
@@ -202,17 +176,37 @@ function App() {
 			if (fileName.indexOf('[auto]') !== -1) {
 				fileName = fileName.replace('[auto]', files.length)
 			}
-
-			return `${fileName}.${extension}`
 		}
 		else if (outputSettings.outputFileName === 'original') {
-			return fileObj.file.name
+			// get original file name without extension
+			fileName = fileObj.file.name.substr(0, dot_index)
 		}
-		else {
-			return `${fileObj.id}.${extension}`
+
+
+		// create output object
+		if (outputSettings.outputFormat === "jpeg") {
+			return { ext: "jpg", format: "image/jpeg", fileName };
+		}
+		if (outputSettings.outputFormat === "webp") {
+			return { ext: "webp", format: "image/webp", fileName };
+		}
+		if (outputSettings.outputFormat === "png") {
+			return { ext: "png", format: "image/png", fileName };
+		}
+
+		// Preserve format
+		switch (extension.toLowerCase()) {
+			case "png":
+				return { ext: "png", format: "image/png", fileName };
+			case "jpg":
+			case "jpeg":
+				return { ext: extension, format: "image/jpeg", fileName };
+			case "webp":
+				return { ext: "webp", format: "image/webp", fileName };
+			default:
+				return { ext: "jpg", format: "image/jpeg", fileName };
 		}
 	}
-	
 
 	return (
 		<>
