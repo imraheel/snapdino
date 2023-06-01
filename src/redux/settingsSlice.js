@@ -56,40 +56,6 @@ const initialState = {
 	 * Default value is set to '4' (center).
 	 */
 	manualFocalPoint: '4',
-
-	/**
-	 * Represents the output file name setting.
-	 * If set to 'pattern', the output file name will follow the specified pattern.
-	 */
-	outputFileName: 'unique',
-
-	/**
-	 * Represents the output file name pattern.
-	 * Used when the `outputFileName` is set to 'pattern'.
-	 * Specifies the pattern for generating the output file name.
-	 */
-	outputFileNamePattern: 'output-[auto]',
-
-	/**
-	 * Represents the output file format setting.
-	 * Specifies the desired format for the output images.
-	 * Default value is set to 'original', which means the images will maintain their original format.
-	 */
-	outputFormat: 'original',
-
-	/**
-	 * Represents the output image quality setting.
-	 * Specifies the desired quality level for the output images.
-	 * Default value is set to 80.
-	 */
-	outputQuality: 80,
-
-	/**
-	 * Represents the output directory setting.
-	 * Specifies the directory where the processed images will be saved.
-	 * Default value is set to `null`, indicating that no specific output directory is set.
-	 */
-	outputDirectory: null,
 }
 
 const settingsSlice = createSlice({

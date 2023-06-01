@@ -45,6 +45,7 @@ const darkTheme = createTheme({
 function App() {
 	const dispatch = useDispatch()
 	const settings = useSelector((state) => state.settings)
+	const outputSettings = useSelector((state) => state.outputSettings)
 	const files = useSelector((state) => state.files)
 	const [appLoading, setAppLoading] = useState(true)
 	const [isProcessing, setIsProcessing] = useState(false)
@@ -74,7 +75,7 @@ function App() {
 
 	const saveNextFile = () => {
 		if (files.length === 0) {
-			window.electronAPI.openOutputDirectory(settings.outputDirectory)
+			window.electronAPI.openOutputDirectory(outputSettings.outputDirectory)
 			setIsProcessing(false);
 			return
 		}
@@ -127,14 +128,14 @@ function App() {
 			con.drawImage(img, (iw - srcw) * fx, (ih - srch) * fy, srcw, srch, 0, 0, tw, th);
 			
 
-			const quality = settings.outputQuality / 100;
+			const quality = outputSettings.outputQuality / 100;
 
 			const filename = getFileName(fileObj, tw, th);
 			
 			canvas.toBlob(
 				async blob => {
 					const arrayBuffer = await blob.arrayBuffer();
-					window.electronAPI.saveFile(arrayBuffer, fileObj.id, filename, settings.outputDirectory)
+					window.electronAPI.saveFile(arrayBuffer, fileObj.id, filename, outputSettings.outputDirectory)
 					resolve()
 				},
 				output.format,
@@ -144,13 +145,13 @@ function App() {
 	}
 
 	const outputFormat = (file) => {
-		if (settings.outputFormat === "jpeg") {
+		if (outputSettings.outputFormat === "jpeg") {
 			return { ext: "jpg", format: "image/jpeg" };
 		}
-		if (settings.outputFormat === "webp") {
+		if (outputSettings.outputFormat === "webp") {
 			return { ext: "webp", format: "image/webp" };
 		}
-		if (settings.outputFormat === "png") {
+		if (outputSettings.outputFormat === "png") {
 			return { ext: "png", format: "image/png" };
 		}
 
@@ -174,9 +175,9 @@ function App() {
 		const dot_index = fileObj.file.name.lastIndexOf(".");
 		const extension = fileObj.file.name.substr(dot_index + 1);
 
-		if (settings.outputFileName === 'pattern') {
+		if (outputSettings.outputFileName === 'pattern') {
 			
-			let fileName = settings.outputFileNamePattern;
+			let fileName = outputSettings.outputFileNamePattern;
 
 			// Checks if the fileName pattern contains the placeholder [uuid].
 			// If present, replaces the [uuid] placeholder with the unique v4 uuid
@@ -204,7 +205,7 @@ function App() {
 
 			return `${fileName}.${extension}`
 		}
-		else if (settings.outputFileName === 'original') {
+		else if (outputSettings.outputFileName === 'original') {
 			return fileObj.file.name
 		}
 		else {

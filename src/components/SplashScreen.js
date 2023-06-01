@@ -5,6 +5,7 @@ import { CircularProgress } from '@mui/material';
 
 import logo from '../assets/images/logo-light.svg'
 import { updateSetting } from '../redux/settingsSlice';
+import { updateOutputSetting } from '../redux/outputSettingsSlice';
 
 
 const SplashScreen = ({setAppLoading}) => {
@@ -23,7 +24,7 @@ const SplashScreen = ({setAppLoading}) => {
 		 */
 		window.electronAPI.onDefaultDownloadDirectory((event, directory) => {
 			if (directory) {
-				dispatch(updateSetting({
+				dispatch(updateOutputSetting({
 					outputDirectory: directory
 				}))
 			}

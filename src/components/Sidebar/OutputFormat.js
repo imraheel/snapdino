@@ -10,6 +10,7 @@ import FormLabel from '@mui/material/FormLabel';
 import Slider from '@mui/material/Slider';
 
 import { updateSetting } from '../../redux/settingsSlice';
+import { updateOutputSetting } from '../../redux/outputSettingsSlice';
 
 const marks = [
 	{ value: 10, label: '10%', },
@@ -20,7 +21,7 @@ const marks = [
 
 const OutputFormat = () => {
 	const dispatch = useDispatch()
-	const settings = useSelector((state) => state.settings)
+	const outputSettings = useSelector((state) => state.outputSettings)
 
 	return (
 		<>
@@ -28,10 +29,10 @@ const OutputFormat = () => {
 				<FormLabel id="radio-output-format-label">Output Format</FormLabel>
 				<RadioGroup
 					aria-labelledby="radio-output-format-label"
-					value={settings.outputFormat}
+					value={outputSettings.outputFormat}
 					name="output-format"
 					onChange={(e) => {
-						dispatch(updateSetting({
+						dispatch(updateOutputSetting({
 							outputFormat: e.target.value
 						}))
 					}}
@@ -47,14 +48,14 @@ const OutputFormat = () => {
 				<FormLabel id="output-quality-label">Quality</FormLabel>
 				<Slider
 					aria-labelledby="output-quality-label"
-					value={settings.outputQuality}
+					value={outputSettings.outputQuality}
 					step={10}
 					valueLabelDisplay="auto"
 					marks={marks}
 					min={10}
 					max={100}
 					onChange={(e, value) => {
-						dispatch(updateSetting({
+						dispatch(updateOutputSetting({
 							outputQuality: value
 						}))
 					}}

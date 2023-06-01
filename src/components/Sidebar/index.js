@@ -11,6 +11,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Grid from '@mui/material/Grid';
 
 import { resetSettings } from '../../redux/settingsSlice';
+import { resetOutputSettings } from '../../redux/outputSettingsSlice';
 import { removeAllFiles } from '../../redux/filesSlice';
 
 import logo from '../../assets/images/logo-light.svg'
@@ -87,7 +88,10 @@ const Sidebar = ({ startProcessing, isProcessing }) => {
 						color='secondary' 
 						size='small' 
 						fullWidth 
-						onClick={() => dispatch(resetSettings())}
+						onClick={() => {
+							dispatch(resetSettings())
+							dispatch(resetOutputSettings())
+						}}
 					>Reset Settings</Button>
 				</Grid>
 			</Grid>

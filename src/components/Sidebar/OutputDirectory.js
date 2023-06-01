@@ -8,11 +8,12 @@ import IconButton from '@mui/material/IconButton';
 import FolderIcon from '@mui/icons-material/Folder';
 
 import { updateSetting } from '../../redux/settingsSlice';
+import { updateOutputSetting } from '../../redux/outputSettingsSlice';
 
 
 const OutputDirectory = () => {
 	const dispatch = useDispatch()
-	const settings = useSelector((state) => state.settings)
+	const outputSettings = useSelector((state) => state.outputSettings)
 	
 	useEffect(() => {
 		/**
@@ -20,7 +21,7 @@ const OutputDirectory = () => {
 		 */
 		window.electronAPI.onOutputDirectory((event, directory) => {
 			if (directory) {
-				dispatch(updateSetting({
+				dispatch(updateOutputSetting({
 					outputDirectory: directory
 				}))
 			}
@@ -41,7 +42,7 @@ const OutputDirectory = () => {
 				<InputBase
 					sx={{ ml: 1, flex: 1 }}
 					placeholder="Output Directory"
-					value={settings?.outputDirectory}
+					value={outputSettings?.outputDirectory}
 					disabled
 					inputProps={{ 'aria-label': 'Output Directory' }}
 				/>

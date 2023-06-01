@@ -10,20 +10,21 @@ import TextField from '@mui/material/TextField';
 import FormHelperText from '@mui/material/FormHelperText';
 
 import { updateSetting } from '../../redux/settingsSlice';
+import { updateOutputSetting } from '../../redux/outputSettingsSlice';
 
 
 const OutputFileName = () => {
 	const dispatch = useDispatch()
-	const settings = useSelector((state) => state.settings)
+	const outputSettings = useSelector((state) => state.outputSettings)
 
 	return (
 		<>
 			<FormControl>
 				<RadioGroup
-					value={settings.outputFileName}
+					value={outputSettings.outputFileName}
 					name="output-format"
 					onChange={(e) => {
-						dispatch(updateSetting({
+						dispatch(updateOutputSetting({
 							outputFileName: e.target.value
 						}))
 					}}
@@ -34,16 +35,16 @@ const OutputFileName = () => {
 				</RadioGroup>
 			</FormControl>
 
-			{settings.outputFileName === 'pattern' ? (
+			{outputSettings.outputFileName === 'pattern' ? (
 				<>
 				<Box sx={{ mt: 2 }}>
 					<TextField
 						label="File Name Pattern"
 						size="small"
 						fullWidth
-						value={settings.outputFileNamePattern}
+						value={outputSettings.outputFileNamePattern}
 						onChange={(e) => {
-							dispatch(updateSetting({
+							dispatch(updateOutputSetting({
 								outputFileNamePattern: e.target.value
 							}))
 						}}
