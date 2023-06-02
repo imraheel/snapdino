@@ -4,12 +4,16 @@
 	"description": "SnapDino - Image crop, resize and enhance made easy",
 	"author": "Raheel Khan",
 	"main": "app/electron.js",
-	"homepage": "https://github.com/imraheel/snapdino.git",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/imraheel/snapdino.git"
+	},
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "GENERATE_SOURCEMAP=false react-scripts build",
 		"dev": "concurrently -k \"BROWSER=none npm start\" \"npm:electron\"",
 		"electron": "wait-on tcp:4100 && electron .",
+		"pack": "electron-builder --dir",
 		"build:mac": "electron-builder --mac",
 		"build:win": "electron-builder --win",
 		"build:linux": "electron-builder --linux deb tar.gz",
@@ -18,15 +22,27 @@
 	"build": {
 		"appId": "com.snapdino.app",
 		"productName": "SnapDino",
+		"extends": null,
+		"extraMetadata": {
+			"main": "app/electron.js"
+		},
+		"files": [
+			"./build/**/*",
+			"node_modules/**/*",
+			"package.json"
+		],
+		"directories": {
+			"buildResources": "assets"
+		},
 		"mac": {
-			"icon": "./public/icons/mac/icon.icns",
+			"icon": "./build/icons/mac/icon.icns",
 			"target": {
 				"target": "default",
 				"arch": "universal"
 			}
 		},
 		"win": {
-			"icon": "./public/icons/png/256x256.png",
+			"icon": "./build/icons/win/icon.ico",
 			"target": [
 				{
 					"target": "nsis",
@@ -38,7 +54,7 @@
 			]
 		},
 		"linux": {
-			"icon": "./public/icons/png/256x256.png"
+			"icon": "./build/icons/png/256x256.png"
 		}
 	},
 	"eslintConfig": {
@@ -92,6 +108,7 @@
 	"devDependencies": {
 		"concurrently": "^8.0.1",
 		"electron": "^24.3.1",
+		"electron-builder": "^23.6.0",
 		"electron-icon-builder": "^2.0.1",
 		"sass": "^1.62.1",
 		"wait-on": "^7.0.1"
