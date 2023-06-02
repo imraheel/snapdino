@@ -84,7 +84,7 @@ We welcome contributions from the community! If you would like to contribute to 
 
 ## License
 
-SnapDino is released under the [MIT License](LICENSE.md).
+SnapDino is released under the [AGPL-3.0 license](LICENSE).
 
 ---
 
