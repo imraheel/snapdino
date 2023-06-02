@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 
+let timeOut = null;
+
 const useWindowSize = () => {
 	
 	const [windowSize, setWindowSize] = useState({
 		width: undefined,
 		height: undefined,
 	});
-	let timeOut = null;
 
 	useEffect(() => {
 		// Handler to call on window resize

@@ -1,28 +1,43 @@
 {
 	"name": "SnapDino",
-	"version": "1.0.0",
+	"version": "0.0.1-beta",
 	"description": "SnapDino - Image crop, resize and enhance made easy",
 	"author": "Raheel Khan",
 	"main": "app/electron.js",
-	"homepage": ".",
+	"homepage": "https://github.com/imraheel/snapdino.git",
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "GENERATE_SOURCEMAP=false react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject",
 		"dev": "concurrently -k \"BROWSER=none npm start\" \"npm:electron\"",
 		"electron": "wait-on tcp:4100 && electron .",
 		"build:mac": "electron-builder --mac",
 		"build:win": "electron-builder --win",
+		"build:linux": "electron-builder --linux deb tar.gz",
 		"make:icons": "./node_modules/.bin/electron-icon-builder --input=./logo.png --output=./public"
 	},
 	"build": {
 		"appId": "com.snapdino.app",
 		"productName": "SnapDino",
 		"mac": {
-			"icon": "./public/icons/mac/icon.icns"
+			"icon": "./public/icons/mac/icon.icns",
+			"target": {
+				"target": "default",
+				"arch": "universal"
+			}
 		},
 		"win": {
+			"icon": "./public/icons/png/256x256.png",
+			"target": [
+				{
+					"target": "nsis",
+					"arch": [
+						"x64",
+						"ia32"
+					]
+				}
+			]
+		},
+		"linux": {
 			"icon": "./public/icons/png/256x256.png"
 		}
 	},

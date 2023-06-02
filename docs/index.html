@@ -75,6 +75,42 @@
 	</footer>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+	<script type="text/javascript">
+        function getDownloadLink() {
+            var userAgent = window.navigator.userAgent,
+                platform = window.navigator.platform,
+                macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+                windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+                iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+                os = null;
+            downloadURL = 'https://github.com/sfx101/docker-stacks/releases/latest/download/';
+            if (macosPlatforms.indexOf(platform) !== -1) {
+                os = 'Mac OS';
+                downloadURL = 'https://get-deck.com/download-macos';
+            } else if (iosPlatforms.indexOf(platform) !== -1) {
+                os = 'iOS';
+                downloadURL = 'https://get-deck.com/download-macos';
+            } else if (windowsPlatforms.indexOf(platform) !== -1) {
+                os = 'Windows';
+                downloadURL = 'https://get-deck.com/download-windows';
+            } else if (/Android/.test(userAgent)) {
+                os = 'Android';
+                downloadURL = 'https://get-deck.com/download-windows';
+            } else if (!os && /Linux/.test(platform)) {
+                os = 'Linux';
+                downloadURL = 'https://get-deck.com/download-ubuntu';
+            }
+            $(".download").each(function (index) {
+                if (os !== 'iOS' || os !== 'Android' || os !== 'Linux') {
+                    $(this).attr('target', '_self');
+                }
+                this.setAttribute('href', downloadURL);
+            });
+            return os;
+        }
+        getDownloadLink();
+    </script>
 </body>
 
 </html>
