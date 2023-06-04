@@ -3,6 +3,7 @@
 	"version": "0.0.1-beta",
 	"description": "SnapDino - Image crop, resize and enhance made easy",
 	"author": "Raheel Khan",
+	"homepage": "./",
 	"main": "app/electron.js",
 	"repository": {
 		"type": "git",
@@ -24,15 +25,16 @@
 		"productName": "SnapDino",
 		"extends": null,
 		"extraMetadata": {
-			"main": "app/electron.js"
+			"main": "./app/electron.js"
 		},
 		"files": [
 			"./build/**/*",
+			"./app/**/*",
 			"node_modules/**/*",
 			"package.json"
 		],
 		"directories": {
-			"buildResources": "assets"
+			"buildResources": "."
 		},
 		"mac": {
 			"icon": "./build/icons/mac/icon.icns",
@@ -90,16 +92,12 @@
 		"core-js": "^3.30.2",
 		"electron-is-dev": "^2.0.0",
 		"enzyme": "^3.11.0",
-		"file-saver": "^2.0.5",
-		"jszip": "^3.10.1",
 		"prop-types": "^15.8.1",
 		"react": "^18.2.0",
 		"react-app-polyfill": "^3.0.0",
 		"react-dom": "^18.2.0",
 		"react-redux": "^8.0.5",
-		"react-router-dom": "^6.11.2",
 		"react-scripts": "5.0.1",
-		"react-select": "^5.7.3",
 		"redux": "4.2.1",
 		"smartcrop": "^2.0.5",
 		"uuid": "^9.0.0",
