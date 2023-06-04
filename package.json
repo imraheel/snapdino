@@ -18,7 +18,8 @@
 		"build:mac": "electron-builder --mac",
 		"build:win": "electron-builder --win",
 		"build:linux": "electron-builder --linux deb tar.gz",
-		"make:icons": "./node_modules/.bin/electron-icon-builder --input=./logo.png --output=./public"
+		"make:icons": "./node_modules/.bin/electron-icon-builder --input=./public/app-icon/icon-1024.png --output=./public",
+		"build:test": "rm -rf dist && rm -rf build && npm run make:icons && npm run build && npm run build:mac"
 	},
 	"build": {
 		"appId": "com.snapdino.app",

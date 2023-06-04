@@ -92,7 +92,7 @@ const template = [
 						alwaysOnTop: true,
 						darkTheme: true,
 						backgroundColor: '#252931',
-						icon: path.join(__dirname, '../', 'logo.png'),
+						icon: path.join(__dirname, '../', 'build/app-icon/icon-1024.png'),
 					});
 
 					aboutWindow.loadURL(`file://${path.join(__dirname, '../', `build/about.html?v=${app.getVersion()}`)}`);
@@ -119,7 +119,7 @@ function createWindow() {
 		minWidth: 1080,
 		minHeight: 600,
 		resizable: true,
-		icon: path.join(__dirname, '../', 'logo.png'),
+		icon: path.join(__dirname, '../', 'build/app-icon/icon-1024.png'),
 		webPreferences: {
 			preload: path.join(__dirname, 'preload.js'),
 			nodeIntegration: true,

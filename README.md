@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="./logo.png" alt="SnapDino logo" height="80"/>
+	<img src="./public/app-icon/icon-1024.png" alt="SnapDino icon" height="80"/>
 </p>
 <h1 align="center">SnapDino</h1>
 
