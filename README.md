@@ -82,6 +82,15 @@ Please visit [BIRME](https://www.birme.net/) to explore their web application an
 
 We welcome contributions from the community! If you would like to contribute to SnapDino, please follow our [contribution guidelines](CONTRIBUTING.md) for more information.
 
+## Support Me
+
+If you find SnapDino helpful and would like to support its development, you can buy me a coffee:
+
+[Buy Me a Coffee](https://www.buymeacoffee.com/imraheel)
+
+Your support is greatly appreciated! It helps me continue working on and improving this project.
+
+
 ## License
 
 SnapDino is released under the [AGPL-3.0 license](LICENSE).
