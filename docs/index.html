@@ -1,87 +1,400 @@
+
+<!--
+=========================================================
+* Soft UI Design System - v1.0.9
+=========================================================
+
+* Product Page:  https://www.creative-tim.com/product/soft-ui-design-system 
+* Copyright 2023 Creative Tim (https://www.creative-tim.com)
+* Coded by www.creative-tim.com
+
+ =========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
 
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
+	<link rel="icon" type="image/png" href="./assets/img/favicon.png">
 	<title>SnapDino</title>
-	<meta name="description" content="SnapDino - Image crop, resize and enhance made easy">
-	<meta name="author" content="Raheel Khan - https://github.com/imraheel">
-	<meta name="keyword" content="snapdino,snap,image,crop,resize,,enhance">
-	<!-- Import Material UI -->
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-	<link rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/5.3.45/iconfont/material-icons.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<!--     Fonts and icons     -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+	<!-- Nucleo Icons -->
+	<link href="./assets/css/nucleo-icons.css" rel="stylesheet" />
+	<link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
+	<!-- Font Awesome Icons -->
+	<script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+	<!-- CSS Files -->
+	<link id="pagestyle" href="./assets/css/soft-design-system.css?v=1.0.9" rel="stylesheet" />
+
 </head>
 
 <body>
 	<!-- Navbar -->
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<div class="container">
-			<a class="navbar-brand" href="#">SnapDino</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav ms-auto">
-					<li class="nav-item">
-						<a class="nav-link active" href="#">Home</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Features</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Download</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Documentation</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-
-	<!-- Main content -->
-	<main class="container">
-		<h1>SnapDino</h1>
-		<p>SnapDino is an open-source application built with Electron that allows users to crop and resize images in
-			bulk and save them to their desired location. The application provides a user-friendly interface and offers
-			convenient features for efficient image processing.</p>
-		<p>Here are some of the features of SnapDino:</p>
-		<ul>
-			<li>Batch cropping and resizing</li>
-			<li>User-friendly interface</li>
-			<li>Convenient features for efficient image processing</li>
-		</ul>
-		<p>To learn more about SnapDino, please visit the documentation:</p>
-		<a href="#">Documentation</a>
-		<p>You can also download the application from the following links:</p>
+	<div class="container position-sticky z-index-sticky top-0">
 		<div class="row">
-			<div class="col">
-				<button class="btn btn-primary">Download for Mac</button>
-			</div>
-			<div class="col">
-				<button class="btn btn-success">Download for Windows</button>
+			<div class="col-12">
+				<nav
+					class="navbar navbar-expand-lg  blur blur-rounded top-0 z-index-fixed shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
+					<div class="container-fluid px-0">
+						<a class="navbar-brand font-weight-bolder ms-sm-3"
+							href="#" rel="tooltip"
+							title="Designed and Coded by Creative Tim" data-placement="bottom" target="_blank">
+							SnapDino
+						</a>
+						<button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
+							data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false"
+							aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon mt-2">
+								<span class="navbar-toggler-bar bar1"></span>
+								<span class="navbar-toggler-bar bar2"></span>
+								<span class="navbar-toggler-bar bar3"></span>
+							</span>
+						</button>
+						<div class="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100" id="navigation">
+							<ul class="navbar-nav navbar-nav-hover  w-100">
+								<li class="nav-item mx-2">
+									<a class="nav-link "
+										href="#learn-more">
+										Features
+									</a>
+								</li>
+								<li class="nav-item mx-2">
+									<a class="nav-link "
+										href="#pricing-table">
+										Pricing
+									</a>
+								</li>
+								<li class="nav-item mx-2">
+									<a class="nav-link"
+										href="https://github.com/creativetimofficial/soft-ui-design-system">
+										Support
+									</a>
+								</li>
+
+
+								<li class="nav-item ms-lg-auto">
+									<a class="nav-link nav-link-icon me-2"
+										href="https://github.com/creativetimofficial/soft-ui-design-system"
+										target="_blank">
+										<i class="fa fa-github me-1"></i>
+										<p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
+											data-bs-placement="bottom" title="Star us on Github">Github</p>
+									</a>
+								</li>
+								<li class="nav-item my-auto ms-3 ms-lg-0">
+									<a href="https://www.creative-tim.com/product/soft-ui-design-system-pro"
+										class="btn btn-sm  bg-gradient-primary  btn-round mb-0 me-1 mt-2 mt-md-0">
+										Download
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+				<!-- End Navbar -->
 			</div>
 		</div>
-	</main>
+	</div>
 
-	<!-- Footer -->
-	<footer class="container">
-		<p>Copyright &copy; 2023, SnapDino</p>
+	<!-- -------- START HEADER 7 w/ text and video ------- -->
+	<header class="header-2">
+		<div class="page-header min-vh-95" style="background-image: url('./assets/img/curved.jpg'); background-attachment: fixed;">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-lg-8 text-center mx-auto my-auto">
+						<h1 class="text-white">Effortless Image Cropping and Resizing</h1>
+						<p class="lead mb-4 text-white opacity-8">SnapDino is a powerful and intuitive image processing
+							tool that simplifies bulk cropping and resizing.
+							It's never been easier to optimize your images for any purpose.</p>
+						<a href="javascript:;" class="btn bg-gradient-primary me-3">Download <i class="fas fa-download"></i></a>
+						<a href="#learn-more" class="btn bg-white text-dark">Learn More <i class="fas fa-arrow-right"></i></a>
+						<h6 class="text-white mb-2 mt-5">Available on</h6>
+						<div class="d-flex justify-content-center">
+							<a href="javascript:;" class="btn btn-primary me-2">
+								<i class="fab fa-apple text-lg text-white"></i>
+							</a>
+							<a href="javascript:;" class="btn btn-primary me-2">
+								<i class="fab fa-windows text-lg text-white"></i>
+							</a>
+							<a href="javascript:;" class="btn btn-primary disabled">
+								<i class="fab fa-ubuntu text-lg text-white"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="position-absolute w-100 z-index-1 bottom-0">
+				<svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+					viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
+					<defs>
+						<path id="gentle-wave"
+							d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+					</defs>
+					<g class="moving-waves">
+						<use xlink:href="#gentle-wave" x="48" y="-1" fill="rgba(255,255,255,0.40" />
+						<use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.35)" />
+						<use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.25)" />
+						<use xlink:href="#gentle-wave" x="48" y="8" fill="rgba(255,255,255,0.20)" />
+						<use xlink:href="#gentle-wave" x="48" y="13" fill="rgba(255,255,255,0.15)" />
+						<use xlink:href="#gentle-wave" x="48" y="16" fill="rgba(255,255,255,1" />
+					</g>
+				</svg>
+			</div>
+		</div>
+	</header>
+	<!-- -------- END HEADER 7 w/ text and video ------- -->
+
+
+	<section class="pt-lg-7 pt-5" id="learn-more">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-5 col-md-8 order-2 order-md-2 order-lg-1">
+					<div
+						class="position-relative ms-lg-5 mb-0 mb-md-7 mb-lg-0 d-none d-md-block d-lg-block d-xl-block h-75">
+						<div
+							class="bg-gradient-primary w-100 h-100 border-radius-xl position-absolute d-lg-block d-none">
+						</div>
+						<img src="./assets/img/app-preview.png"
+							class="w-100 border-radius-xl mt-6 ms-lg-5 position-relative z-index-5" alt="">
+					</div>
+				</div>
+				<div class="col-lg-5 col-md-12 ms-auto order-1 order-md-1 order-lg-1">
+					<div class="p-3 pt-0">
+						<div class="icon icon-shape bg-gradient-primary rounded-circle shadow text-center mb-4">
+							<i class="ni ni-scissors"></i>
+						</div>
+						<h4 class="text-gradient text-primary mb-0">Precise Crop and Resize</h4>
+						<p>With SnapDino, you have the power to achieve pixel-perfect cropping and resizing.
+							Effortlessly select and define the desired crop area, adjust dimensions, and maintain aspect
+							ratios for consistent and professional-looking results.</p>
+						<p>Whether you need to create thumbnails, resize images for web or social media, or crop photos
+							for a specific project, SnapDino offers the precision and control you need.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="pt-lg-7 pt-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-5 col-md-12 order-1 order-md-1 order-lg-1">
+					<div class="p-3 pt-0">
+						<div class="icon icon-shape bg-gradient-primary rounded-circle shadow text-center mb-4">
+							<i class="ni ni-ungroup"></i>
+						</div>
+						<h4 class="text-gradient text-primary mb-0">Batch Processing</h4>
+						<p>Say goodbye to tedious and repetitive tasks. SnapDino streamlines your workflow by enabling
+							batch processing. Simply select multiple images, apply your desired crop and resize
+							settings, and let SnapDino do the rest.</p>
+						<p>It's a time-saving feature that ensures consistency across your image collection, making it
+							ideal for photographers, graphic designers, and content creators dealing with large volumes
+							of images.</p>
+					</div>
+				</div>
+				<div class="col-lg-5 col-md-8 ms-auto order-2 order-md-2 order-lg-1">
+					<div
+						class="position-relative ms-lg-5 mb-0 mb-md-7 mb-lg-0 d-none d-md-block d-lg-block d-xl-block h-75">
+						<div
+							class="bg-gradient-primary w-100 h-100 border-radius-xl position-absolute d-lg-block d-none">
+						</div>
+						<img src="./assets/img/app-preview.png"
+							class="w-100 border-radius-xl mt-6 ms-lg-5 position-relative z-index-5" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<section class="pt-lg-7 pt-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-5 col-md-8 order-2 order-md-2 order-lg-1">
+					<div
+						class="position-relative ms-lg-5 mb-0 mb-md-7 mb-lg-0 d-none d-md-block d-lg-block d-xl-block h-75">
+						<div
+							class="bg-gradient-primary w-100 h-100 border-radius-xl position-absolute d-lg-block d-none">
+						</div>
+						<img src="./assets/img/app-preview.png"
+							class="w-100 border-radius-xl mt-6 ms-lg-5 position-relative z-index-5" alt="">
+					</div>
+				</div>
+				<div class="col-lg-5 col-md-12 ms-auto order-1 order-md-1 order-lg-1">
+					<div class="p-3 pt-0">
+						<div class="icon icon-shape bg-gradient-primary rounded-circle shadow text-center mb-4">
+							<i class="ni ni-image"></i>
+						</div>
+						<h4 class="text-gradient text-primary mb-0">Customizable Output Settings</h4>
+						<p>SnapDino puts you in the driver's seat when it comes to output customization. Fine-tune your
+							image settings to match your specific requirements. Choose from various image formats such
+							as JPEG, PNG, or WebP.</p>
+						<p>Adjust dimensions, compression levels, and quality settings to strike the perfect balance
+							between file size and visual fidelity. With SnapDino, your images will always look their
+							best, no matter the platform or application.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="pt-lg-7 pt-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-5 col-md-12 order-1 order-md-1 order-lg-1">
+					<div class="p-3 pt-0">
+						<div class="icon icon-shape bg-gradient-primary rounded-circle shadow text-center mb-4">
+							<i class="ni ni-tv-2"></i>
+						</div>
+						<h4 class="text-gradient text-primary mb-0">Intuitive User Interface</h4>
+						<p>SnapDino prides itself on its user-friendly interface that simplifies the image processing
+							experience. The intuitive design allows both beginners and experienced users to navigate the
+							application with ease. </p>
+						<p>With well-organized menus, and straightforward controls, you'll quickly become
+							familiar with SnapDino's interface, enabling you to accomplish your tasks efficiently and
+							confidently.</p>
+					</div>
+				</div>
+				<div class="col-lg-5 col-md-8 ms-auto order-2 order-md-2 order-lg-1">
+					<div
+						class="position-relative ms-lg-5 mb-0 mb-md-7 mb-lg-0 d-none d-md-block d-lg-block d-xl-block h-75">
+						<div
+							class="bg-gradient-primary w-100 h-100 border-radius-xl position-absolute d-lg-block d-none">
+						</div>
+						<img src="./assets/img/app-preview.png"
+							class="w-100 border-radius-xl mt-6 ms-lg-5 position-relative z-index-5" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+	<!-- <section class="">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-1"></div>
+				<div class="col-lg-10">
+					<img src="./assets/img/app-preview.png" alt="img-blur-shadow" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</section> -->
+
+	<section class="py-sm-7" id="pricing-table">
+		<div class="bg-gradient-primary position-relative m-3 border-radius-xl">
+			<img src="./assets/img/waves-white.svg" alt="pattern-lines"
+				class="position-absolute start-0 top-md-0 w-100 opacity-6">
+			<div class="container pb-lg-8 pb-7 pt-5 postion-relative z-index-2 position-relative">
+				<div class="row">
+					<div class="col-md-7 mx-auto text-center">
+						<h3 class="text-white">Plans & Pricing</h3>
+						<span class="badge bg-gradient-dark mb-2">SnapDino is available for free!</span>
+						<p class="text-white">For a limited time, you can enjoy all the powerful features of SnapDino
+							without any cost. We believe in making image processing accessible to everyone, and that's
+							why we're offering our application for free.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="mt-lg-n8 mt-n6">
+			<div class="container">
+				<div class="row mt-5">
+					<div class="col-lg-2 mb-lg-0 mb-4"></div>
+					<div class="col-lg-8 col-sm-12 mb-lg-0 mb-4">
+						<div class="card shadow-none border h-100">
+							<div class="card-header text-sm-start text-center pt-4 pb-3 px-4">
+								<h5 class="mb-1">Individuals</h5>
+								<p class="mb-3 text-sm">FREE forever for individual developers</p>
+								<h3 class="font-weight-bolder mt-3">
+									$0
+								</h3>
+							</div>
+							<div class="card-body">
+								<div class="d-flex pb-3">
+									<div>
+										<i class="fas fa-check text-success text-sm" aria-hidden="true"></i>
+									</div>
+									<div class="ps-3">
+										<span class="text-sm">With the free version of SnapDino, you'll have unlimited
+											access to its core functionality, including batch processing, precise crop
+											and resize tools, and customizable output settings. Experience the
+											convenience and efficiency of SnapDino without spending a dime.</span>
+									</div>
+								</div>
+								<div class="d-flex pb-3">
+									<div>
+										<i class="fas fa-check text-success text-sm" aria-hidden="true"></i>
+									</div>
+									<div class="ps-3">
+										<span class="text-sm">Download SnapDino now and take advantage of this
+											limited-time offer to unlock the power of effortless image cropping and
+											resizing for free.</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+	<footer class="footer ">
+		<hr class="horizontal dark mb-5">
+		<div class="container">
+			<div class=" row">
+				<div class="col-md-10 col-sm-6 col-6">
+					<div>
+						<h6 class="text-gradient text-primary font-weight-bolder">SnapDino</h6>
+					</div>
+					<div>
+						<p class="text-sm">©
+							<script>
+								document.write(new Date().getFullYear())
+							</script> Made with <i class="fas fa-heart text-primary"></i> in Pakistan
+						</p>
+					</div>
+				</div>
+
+				<div class="col-md-2 col-sm-6 col-6 ms-auto">
+					<div>
+						<h6 class="text-gradient text-primary text-sm">Social</h6>
+						<ul class="d-flex flex-row ms-n3 nav">
+							<li class="nav-item">
+								<a class="nav-link pe-1" href="https://github.com/creativetimofficial" target="_blank">
+									<i class="fab fa-github text-lg opacity-8"></i>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link pe-1" href="https://github.com/creativetimofficial" target="_blank">
+									<i class="fab fa-instagram text-lg opacity-8"></i>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-12">
+					<div class="text-center">
+						<p class="my-4 text-sm">
+							Your privacy is important, we do not collect any of your personal information on this
+							website or the app
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
 	</footer>
-
-	<!-- 
-	https://www.cacher.io/
-	https://get-deck.com/
-	https://github.com/sfx101/deck/tree/master
-	https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository?tool=webui 
-	-->
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<!--   Core JS Files   -->
+	<script src="./assets/js/core/popper.min.js" type="text/javascript"></script>
+	<script src="./assets/js/core/bootstrap.min.js" type="text/javascript"></script>
+	<script src="./assets/js/plugins/perfect-scrollbar.min.js"></script>
 
 	<script type="text/javascript">
         function getDownloadLink() {

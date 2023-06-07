@@ -6,7 +6,7 @@
 
 SnapDino is an open-source application built with Electron that allows users to crop and resize images in bulk and save them to their desired location. The application provides a user-friendly interface and offers convenient features for efficient image processing.
 
-![SnapDino](./docs/app-preview.png?raw=true "SnapDino")
+![SnapDino](./app-preview.png?raw=true "SnapDino")
 
 <p align="center"><strong>Download SnapDino</strong></p>
 <p align="center">
