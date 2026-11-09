@@ -9,6 +9,6 @@ Contributions to SnapDino are welcome! If you would like to contribute to this o
 
 Please ensure that your pull request includes a clear description of the changes you have made and why you believe they should be merged.
 
-By contributing to SnapDino, you agree that your contributions will be licensed under the [AGPL-3.0 license](LICENSE).
+By contributing to SnapDino, you agree that your contributions will be licensed under the [GPL-3.0-only license](LICENSE).
 
 Thank you for your contributions!

@@ -93,7 +93,7 @@ Your support is greatly appreciated! It helps me continue working on and improvi
 
 ## License
 
-SnapDino is released under the [AGPL-3.0 license](LICENSE).
+SnapDino is released under the [GPL-3.0-only license](LICENSE).
 
 ---
 

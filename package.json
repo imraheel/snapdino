@@ -13,7 +13,7 @@
 		"start": "react-scripts start",
 		"build": "GENERATE_SOURCEMAP=false react-scripts build",
 		"dev": "concurrently -k \"BROWSER=none npm start\" \"npm:electron\"",
-		"electron": "wait-on tcp:4100 && electron .",
+		"electron": "electron .",
 		"pack": "electron-builder --dir",
 		"build:mac": "electron-builder --mac",
 		"build:win": "electron-builder --win",
